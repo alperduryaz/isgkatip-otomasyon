@@ -1,0 +1,2040 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Periyodik Kontrol Veri Oluşturucu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            overflow-x: auto;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #17a2b8;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            min-width: 1250px;
+        }
+        
+        .header h1 {
+            color: #17a2b8;
+            font-size: 24px;
+            margin: 0;
+            flex-shrink: 0;
+        }
+        
+        .header-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: nowrap;
+            flex-shrink: 0;
+        }
+        
+        .btn-personel {
+            background: #28a745;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            margin-right: 15px;
+        }
+        
+        .btn-personel:hover {
+            background: #218838;
+            transform: translateY(-1px);
+        }
+        
+        .data-table {
+            margin-bottom: 20px;
+            min-width: 1250px;
+        }
+        
+        /* Tablo benzeri yapı için header */
+        .table-header {
+            display: flex;
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 6px 6px 0 0;
+            border: 1px solid #dee2e6;
+            border-bottom: none;
+            font-weight: bold;
+            font-size: 12px;
+            margin-bottom: 0;
+            width: 100%;
+        }
+        
+        .table-cell {
+            padding: 0 5px;
+            white-space: nowrap;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        
+        .cell-row { 
+            width: 40px;
+            text-align: center;
+        }
+        
+        .cell-tur { 
+            width: 60px;
+            text-align: center;
+        }
+        
+        .cell-sgk { 
+            width: 240px;
+            text-align: center;
+        }
+        
+        .cell-tc { 
+            width: 120px;
+            text-align: center;
+        }
+        
+        .cell-equip { 
+            width: 80px; 
+            text-align: center;
+            padding-left: 5px;
+        }
+        
+        .form-rows-container {
+            border: 1px solid #dee2e6;
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            max-height: none;
+            overflow-y: visible;
+            width: 100%;
+        }
+        
+        .form-row {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            border-bottom: 1px solid #dee2e6;
+            background: white;
+            width: 100%;
+        }
+        
+        .form-row:last-child {
+            border-bottom: none;
+        }
+        
+        .form-row:hover {
+            background: #f8f9fa;
+        }
+        
+        .row-number {
+            width: 40px;
+            text-align: center;
+            font-weight: bold;
+            color: #17a2b8;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        
+        .form-group {
+            padding: 0 5px;
+            flex-shrink: 0;
+        }
+        
+        .input-row {
+            width: 60px;
+        }
+        
+        .input-sgk {
+            width: 240px;
+        }
+        
+        .input-tc {
+            width: 120px;
+            position: relative; /* Dropdown için */
+        }
+        
+        .input-equip {
+            width: 80px;
+        }
+        
+        input[type="text"],
+        input[type="number"] {
+            padding: 8px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #17a2b8;
+            box-shadow: 0 0 0 2px rgba(23, 162, 184, 0.1);
+        }
+        
+        input[type="number"] {
+            text-align: center;
+        }
+        
+        .fill-down-btn {
+            width: 24px;
+            height: 34px;
+            padding: 0;
+            background: #17a2b8;
+            color: white;
+            border: 1px solid #138496;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 1;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            margin-left: 2px;
+        }
+        
+        .fill-down-btn:hover {
+            background: #138496;
+            transform: scale(1.1);
+        }
+        
+        .fill-down-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            min-width: 1250px;
+        }
+        
+        button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        
+        .btn-add-row {
+            background: #ffc107;
+            color: #212529;
+        }
+        
+        .btn-add-row:hover {
+            background: #e0a800;
+            transform: translateY(-1px);
+        }
+        
+        .btn-submit {
+            background: #17a2b8;
+            color: white;
+        }
+        
+        .btn-submit:hover {
+            background: #138496;
+            transform: translateY(-1px);
+        }
+        
+        .btn-clear {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-clear:hover {
+            background: #5a6268;
+        }
+        
+        .btn-copy {
+            background: #17a2b8;
+            color: white;
+        }
+        
+        .btn-copy:hover {
+            background: #138496;
+            transform: translateY(-1px);
+        }
+        
+        .btn-send {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-send:hover {
+            background: #218838;
+            transform: translateY(-1px);
+        }
+        
+        .output-section {
+            margin-top: 30px;
+            min-width: 1250px;
+        }
+        
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .output-header h3 {
+            color: #495057;
+            font-size: 16px;
+        }
+        
+        .counter {
+            background: #17a2b8;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        
+        #output {
+            width: 100%;
+            min-height: 200px;
+            padding: 15px;
+            border: 2px solid #ced4da;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            resize: vertical;
+            background: #fff;
+        }
+        
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            display: none;
+            animation: fadeIn 0.3s;
+            min-width: 1250px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .error {
+            border-color: #dc3545 !important;
+        }
+        
+        /* Personel Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #17a2b8;
+        }
+        
+        .modal-header h2 {
+            color: #17a2b8;
+            margin: 0;
+            font-size: 22px;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #6c757d;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            line-height: 1;
+        }
+        
+        .modal-close:hover {
+            color: #dc3545;
+        }
+        
+        .personel-form {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        
+        .personel-form h3 {
+            margin: 0 0 15px 0;
+            font-size: 16px;
+            color: #495057;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr 1fr auto;
+            gap: 15px;
+            align-items: end;
+        }
+        
+        .form-field label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 5px;
+        }
+        
+        .form-field input,
+        .form-field select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .form-field input:focus,
+        .form-field select:focus {
+            outline: none;
+            border-color: #17a2b8;
+            box-shadow: 0 0 0 2px rgba(23, 162, 184, 0.1);
+        }
+        
+        .personel-list {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .personel-list h3 {
+            margin: 0 0 15px 0;
+            font-size: 16px;
+            color: #495057;
+        }
+        
+        .search-box {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .personel-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .personel-table thead {
+            background: #e9ecef;
+        }
+        
+        .personel-table th {
+            padding: 10px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .personel-table td {
+            padding: 10px;
+            border-top: 1px solid #dee2e6;
+            font-size: 14px;
+        }
+        
+        .personel-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .action-btns {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .btn-edit,
+        .btn-delete {
+            padding: 4px 8px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+        
+        .btn-edit {
+            background: #ffc107;
+            color: #212529;
+        }
+        
+        .btn-edit:hover {
+            background: #e0a800;
+        }
+        
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-delete:hover {
+            background: #c82333;
+        }
+        
+        .personel-stats {
+            margin-top: 15px;
+            padding: 10px;
+            background: #d1ecf1;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: 600;
+            color: #0c5460;
+        }
+        
+        .personel-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+        
+        .btn-export,
+        .btn-import,
+        .btn-delete-all {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        
+        .btn-export {
+            background: #17a2b8;
+            color: white;
+        }
+        
+        .btn-export:hover {
+            background: #138496;
+            transform: translateY(-1px);
+        }
+        
+        .btn-import {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-import:hover {
+            background: #218838;
+            transform: translateY(-1px);
+        }
+        
+        .btn-delete-all {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-delete-all:hover {
+            background: #c82333;
+            transform: translateY(-1px);
+        }
+        
+        .no-data {
+            text-align: center;
+            padding: 30px;
+            color: #6c757d;
+            font-style: italic;
+        }
+        
+        /* TC Input Dropdown */
+        .tc-dropdown {
+            position: absolute;
+            background: white;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+            min-width: 300px; /* Minimum genişlik */
+            white-space: nowrap; /* Tek satırda göster */
+        }
+        
+        .tc-dropdown.active {
+            display: block;
+        }
+        
+        .tc-dropdown-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 13px;
+            white-space: nowrap; /* Tek satırda göster */
+            overflow: hidden;
+            text-overflow: ellipsis; /* Çok uzunsa ... koy */
+        }
+        
+        .tc-dropdown-item.tc-dropdown-gorev {
+            background: #e7f3ff;
+            font-weight: bold;
+            color: #0056b3;
+        }
+        
+        .tc-dropdown-item.tc-dropdown-gorev:hover {
+            background: #cce5ff;
+        }
+        
+        .tc-dropdown-item:hover,
+        .tc-dropdown-item.selected {
+            background: #e9ecef;
+        }
+        
+        .tc-dropdown-item:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔧 Periyodik Kontrol Veri Oluşturucu</h1>
+            <div class="header-buttons">
+                <button type="button" class="btn-personel" onclick="openPersonelModal()">👥 Personeller</button>
+                <button type="button" class="btn-add-row" onclick="addRows(1)">➕ 1 Satır</button>
+                <button type="button" class="btn-add-row" onclick="addRows(5)">➕ 5 Satır</button>
+                <button type="button" class="btn-add-row" onclick="addRows(10)">➕ 10 Satır</button>
+            </div>
+        </div>
+        
+        <div class="data-table">
+            <!-- Tablo Header -->
+            <div class="table-header">
+                <div class="table-cell cell-row">#</div>
+                <div class="table-cell cell-tur">Tür</div>
+                <div class="table-cell cell-sgk">SGK No (26)</div>
+                <div style="width: 26px;"></div> <!-- SGK fill-down butonu boşluğu -->
+                <div class="table-cell cell-tc">TC No (11)</div>
+                <div style="width: 26px;"></div> <!-- TC fill-down butonu boşluğu -->
+                <div class="table-cell cell-equip" title="Basınçlı Kap">BK</div>
+                <div class="table-cell cell-equip" title="Kaldırma Ekipmanı">KE</div>
+                <div class="table-cell cell-equip" title="Tesisat">TS</div>
+                <div class="table-cell cell-equip" title="Tezgah">TZ</div>
+                <div class="table-cell cell-equip" title="Raf">RF</div>
+                <div class="table-cell cell-equip" title="İş Makinesi">İM</div>
+                <div class="table-cell cell-equip" title="LPG Tankı">LP</div>
+                <div class="table-cell cell-equip" title="Yürüyen Merdiven">YM</div>
+                <div class="table-cell cell-equip" title="Kule Kren">KK</div>
+                <div class="table-cell cell-equip" title="Asılı Erişim">AE</div>
+            </div>
+            
+            <!-- Form Satırları -->
+            <div class="form-rows-container" id="formRowsContainer">
+                <!-- Satırlar buraya JavaScript ile eklenecek -->
+            </div>
+        </div>
+        
+        <!-- Butonlar -->
+        <div class="action-buttons">
+            <button type="button" class="btn-submit" onclick="submitAllRows()">📋 Tümünü Ekle</button>
+            <button type="button" class="btn-clear" onclick="clearAllRows()">🗑️ Formu Temizle</button>
+        </div>
+        
+        <div id="successMessage" class="success-message">
+            ✅ Veriler başarıyla eklendi!
+        </div>
+        
+        <!-- Çıktı -->
+        <div class="output-section">
+            <div class="output-header">
+                <h3>📤 Script İçin Veri (Kopyalayın)</h3>
+                <span class="counter" id="counter">0 kayıt</span>
+            </div>
+            <textarea id="output" placeholder="Buraya eklediğiniz veriler görünecek..."></textarea>
+            <div class="action-buttons">
+                <button class="btn-copy" onclick="copyToClipboard()">📋 Tümünü Kopyala</button>
+                <!-- <button class="btn-send" onclick="sendToKatip()">📤 Katibe Gönder</button> -->
+                <button class="btn-clear" onclick="clearOutput()">🗑️ Çıktıyı Temizle</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Personel Yönetimi Modal -->
+    <div class="modal-overlay" id="personelModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>👥 Personel Yönetimi</h2>
+                <button class="modal-close" onclick="closePersonelModal()">×</button>
+            </div>
+            
+            <!-- Personel Ekleme Formu -->
+            <div class="personel-form">
+                <h3>Yeni Personel Ekle</h3>
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label>TC No <span style="color: #dc3545;">*</span></label>
+                        <input type="text" id="personelTc" maxlength="11" placeholder="11 haneli">
+                    </div>
+                    <div class="form-field">
+                        <label>Ad Soyad <span style="color: #dc3545;">*</span></label>
+                        <input type="text" id="personelAd" placeholder="Örn: Ahmet Yılmaz">
+                    </div>
+                    <div class="form-field">
+                        <label>Görev <span style="color: #dc3545;">*</span></label>
+                        <select id="personelGorev">
+                            <option value="Elektrik">Elektrik</option>
+                            <option value="Mekanik">Mekanik</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <button type="button" id="personelSubmitBtn" class="btn-submit" onclick="savePersonel()" style="height: 36px; margin: 0;">➕ Ekle</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Personel Listesi -->
+            <div class="personel-list">
+                <h3>Personel Listesi</h3>
+                <input type="text" class="search-box" id="personelSearch" placeholder="🔍 Ara... (TC, Ad Soyad veya Görev)">
+                
+                <div id="personelTableContainer">
+                    <!-- Tablo JavaScript ile doldurulacak -->
+                </div>
+                
+                <div class="personel-stats" id="personelStats">
+                    📊 Toplam: 0 personel
+                </div>
+                
+                <div class="personel-actions">
+                    <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importPersonel(event)">
+                    <button class="btn-export" onclick="exportPersonel()">📤 Dışa Aktar</button>
+                    <button class="btn-import" onclick="document.getElementById('importFile').click()">📥 İçe Aktar</button>
+                    <button class="btn-delete-all" onclick="deleteAllPersonel()">🗑️ Tümünü Sil</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let rowCount = 0;
+        let dataLines = [];
+        let editingPersonelId = null; // Düzenleme modu için
+        
+        // ============ PERSONEL YÖNETİMİ ============
+        
+        // LocalStorage'dan personelleri al
+        function getPersoneller() {
+            const data = localStorage.getItem('isgPersoneller');
+            return data ? JSON.parse(data) : [];
+        }
+        
+        // LocalStorage'a personelleri kaydet
+        function savePersoneller(personeller) {
+            localStorage.setItem('isgPersoneller', JSON.stringify(personeller));
+        }
+        
+        // Modal aç
+        function openPersonelModal() {
+            document.getElementById('personelModal').classList.add('active');
+            loadPersonelList();
+            
+            // İlk input'a focus
+            setTimeout(() => {
+                document.getElementById('personelTc').focus();
+            }, 100);
+        }
+        
+        // Modal kapat
+        function closePersonelModal() {
+            document.getElementById('personelModal').classList.remove('active');
+            clearPersonelForm();
+        }
+        
+        // Formu temizle
+        function clearPersonelForm() {
+            document.getElementById('personelTc').value = '';
+            document.getElementById('personelAd').value = '';
+            document.getElementById('personelGorev').value = 'Elektrik';
+            editingPersonelId = null;
+            document.getElementById('personelSubmitBtn').textContent = '➕ Ekle';
+        }
+        
+        // Personel kaydet/güncelle
+        function savePersonel() {
+            const tc = document.getElementById('personelTc').value.trim();
+            const ad = document.getElementById('personelAd').value.trim();
+            const gorev = document.getElementById('personelGorev').value;
+            
+            // Validasyon
+            if (!tc || tc.length !== 11 || !/^\d{11}$/.test(tc)) {
+                alert('⚠️ TC No 11 haneli sayı olmalıdır!');
+                document.getElementById('personelTc').focus();
+                return;
+            }
+            
+            if (!ad) {
+                alert('⚠️ Ad Soyad boş olamaz!');
+                document.getElementById('personelAd').focus();
+                return;
+            }
+            
+            const personeller = getPersoneller();
+            
+            if (editingPersonelId) {
+                // Güncelleme
+                const index = personeller.findIndex(p => p.id === editingPersonelId);
+                if (index !== -1) {
+                    personeller[index] = {
+                        id: editingPersonelId,
+                        tc: tc,
+                        adSoyad: ad,
+                        gorev: gorev
+                    };
+                }
+            } else {
+                // Yeni ekleme - TC kontrolü
+                if (personeller.some(p => p.tc === tc)) {
+                    alert('⚠️ Bu TC No zaten kayıtlı!');
+                    return;
+                }
+                
+                personeller.push({
+                    id: Date.now().toString(),
+                    tc: tc,
+                    adSoyad: ad,
+                    gorev: gorev
+                });
+            }
+            
+            savePersoneller(personeller);
+            loadPersonelList();
+            clearPersonelForm();
+            
+            // Başarı mesajı
+            const msg = editingPersonelId ? 'güncellendi' : 'eklendi';
+            alert(`✅ ${ad} ${msg}!`);
+        }
+        
+        // Personel listesini yükle
+        function loadPersonelList() {
+            const personeller = getPersoneller();
+            const searchInput = document.getElementById('personelSearch');
+            const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+            
+            console.log('Personel listesi yükleniyor, toplam:', personeller.length);
+            console.log('Arama terimi:', searchTerm);
+            
+            // Filtrele
+            const filtered = personeller.filter(p => 
+                p.tc.includes(searchTerm) ||
+                p.adSoyad.toLowerCase().includes(searchTerm) ||
+                p.gorev.toLowerCase().includes(searchTerm)
+            );
+            
+            console.log('Filtrelenmiş:', filtered.length);
+            
+            const container = document.getElementById('personelTableContainer');
+            
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="no-data">Henüz personel eklenmemiş</div>';
+            } else {
+                let html = `
+                    <table class="personel-table">
+                        <thead>
+                            <tr>
+                                <th>TC No</th>
+                                <th>Ad Soyad</th>
+                                <th>Görev</th>
+                                <th style="width: 100px; text-align: center;">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                filtered.forEach(p => {
+                    html += `
+                        <tr>
+                            <td>${p.tc}</td>
+                            <td>${p.adSoyad}</td>
+                            <td>${p.gorev}</td>
+                            <td class="action-btns">
+                                <button class="btn-edit" onclick="editPersonel('${p.id}')" title="Düzenle">✏️</button>
+                                <button class="btn-delete" onclick="deletePersonel('${p.id}', '${p.adSoyad}')" title="Sil">🗑️</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                html += '</tbody></table>';
+                container.innerHTML = html;
+            }
+            
+            // İstatistik
+            document.getElementById('personelStats').textContent = `📊 Toplam: ${personeller.length} personel`;
+        }
+        
+        // Personel düzenle
+        function editPersonel(id) {
+            const personeller = getPersoneller();
+            const personel = personeller.find(p => p.id === id);
+            
+            if (personel) {
+                document.getElementById('personelTc').value = personel.tc;
+                document.getElementById('personelAd').value = personel.adSoyad;
+                document.getElementById('personelGorev').value = personel.gorev;
+                editingPersonelId = id;
+                document.getElementById('personelSubmitBtn').textContent = '💾 Güncelle';
+                
+                // Scroll to top
+                document.querySelector('.modal-content').scrollTop = 0;
+                document.getElementById('personelTc').focus();
+            }
+        }
+        
+        // Personel sil
+        function deletePersonel(id, adSoyad) {
+            if (!confirm(`"${adSoyad}" silinsin mi?`)) {
+                return;
+            }
+            
+            let personeller = getPersoneller();
+            personeller = personeller.filter(p => p.id !== id);
+            savePersoneller(personeller);
+            loadPersonelList();
+            
+            alert(`✅ ${adSoyad} silindi!`);
+        }
+        
+        // Tümünü sil
+        function deleteAllPersonel() {
+            const personeller = getPersoneller();
+            
+            if (personeller.length === 0) {
+                alert('⚠️ Silinecek personel yok!');
+                return;
+            }
+            
+            if (!confirm(`${personeller.length} personel silinecek. Emin misiniz?`)) {
+                return;
+            }
+            
+            savePersoneller([]);
+            loadPersonelList();
+            alert('✅ Tüm personeller silindi!');
+        }
+        
+        // Export (Dışa Aktar)
+        function exportPersonel() {
+            const personeller = getPersoneller();
+            
+            if (personeller.length === 0) {
+                alert('⚠️ Dışa aktarılacak personel yok!');
+                return;
+            }
+            
+            const data = {
+                version: '1.0',
+                exportDate: new Date().toISOString(),
+                personeller: personeller
+            };
+            
+            const json = JSON.stringify(data, null, 2);
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `isg-personeller-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert(`✅ ${personeller.length} personel dışa aktarıldı!`);
+        }
+        
+        // Import (İçe Aktar)
+        function importPersonel(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    
+                    // Format kontrolü
+                    if (!data.personeller || !Array.isArray(data.personeller)) {
+                        alert('⚠️ Geçersiz dosya formatı!');
+                        return;
+                    }
+                    
+                    const mevcut = getPersoneller();
+                    const yeniPersoneller = data.personeller;
+                    
+                    // Seçenek sun
+                    let mode = 'ekle';
+                    if (mevcut.length > 0) {
+                        const choice = confirm(
+                            `${mevcut.length} mevcut personel var.\n\n` +
+                            `✅ TAMAM: Yeni personelleri EKLE (${mevcut.length + yeniPersoneller.length} toplam)\n` +
+                            `❌ İPTAL: Mevcut personelleri DEĞİŞTİR (${yeniPersoneller.length} toplam)`
+                        );
+                        mode = choice ? 'ekle' : 'degistir';
+                    }
+                    
+                    let finalPersoneller;
+                    if (mode === 'ekle') {
+                        // TC kontrolü yaparak ekle
+                        const mevcutTCler = new Set(mevcut.map(p => p.tc));
+                        const yeniEklenecekler = yeniPersoneller.filter(p => !mevcutTCler.has(p.tc));
+                        finalPersoneller = [...mevcut, ...yeniEklenecekler];
+                        
+                        alert(`✅ ${yeniEklenecekler.length} yeni personel eklendi!\n(${yeniPersoneller.length - yeniEklenecekler.length} tekrarlı atlandı)`);
+                    } else {
+                        finalPersoneller = yeniPersoneller;
+                        alert(`✅ ${yeniPersoneller.length} personel içe aktarıldı! (Eskiler silindi)`);
+                    }
+                    
+                    savePersoneller(finalPersoneller);
+                    loadPersonelList();
+                    
+                } catch (error) {
+                    alert('⚠️ Dosya okunamadı: ' + error.message);
+                }
+                
+                // Input'u temizle (aynı dosya tekrar seçilebilsin)
+                event.target.value = '';
+            };
+            
+            reader.readAsText(file);
+        }
+        
+        // Arama
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('personelSearch');
+            if (searchInput) {
+                searchInput.addEventListener('input', loadPersonelList);
+            }
+            
+            // TC input validasyonu
+            const tcInput = document.getElementById('personelTc');
+            if (tcInput) {
+                tcInput.addEventListener('input', function(e) {
+                    e.target.value = e.target.value.replace(/\D/g, '').slice(0, 11);
+                });
+            }
+        });
+        
+        // ============ ANA FORM ============
+        
+        // Sayfa yüklendiğinde 10 satır ekle
+        window.addEventListener('DOMContentLoaded', function() {
+            addRows(10);
+            
+            // İlk satırın SGK inputuna focus
+            setTimeout(() => {
+                const firstSgkInput = document.getElementById('sgkNo_1');
+                if (firstSgkInput) {
+                    firstSgkInput.focus();
+                }
+            }, 100);
+        });
+        
+        // Satır HTML'i oluştur
+        function createRowHTML(rowNumber) {
+            return `
+                <div class="form-row" data-row="${rowNumber}">
+                    <div class="row-number">${rowNumber}</div>
+                    <div class="form-group input-row">
+                        <input type="text" id="surecId_${rowNumber}" value="322" readonly tabindex="-1" style="background: #e9ecef; cursor: not-allowed;">
+                    </div>
+                    <div class="form-group input-sgk">
+                        <input type="text" id="sgkNo_${rowNumber}" placeholder="26 haneli" maxlength="26" class="sgk-input">
+                    </div>
+                    <button type="button" class="fill-down-btn" onclick="fillDown('sgkNo', ${rowNumber})" tabindex="-1" title="Aşağı kopyala (Ctrl+D)">▼</button>
+                    <div class="form-group input-tc" style="position: relative;">
+                        <input type="text" id="tcNo_${rowNumber}" placeholder="11 haneli" maxlength="11" class="tc-input" data-row="${rowNumber}">
+                        <div class="tc-dropdown" id="tcDropdown_${rowNumber}"></div>
+                    </div>
+                    <button type="button" class="fill-down-btn" onclick="fillDown('tcNo', ${rowNumber})" tabindex="-1" title="Aşağı kopyala (Ctrl+D)">▼</button>
+                    <div class="form-group input-equip">
+                        <input type="number" id="basKap_${rowNumber}" value="0" min="0" max="9999" class="equip-input">
+                    </div>
+                    <div class="form-group input-equip">
+                        <input type="number" id="kaldirma_${rowNumber}" value="0" min="0" max="9999" class="equip-input">
+                    </div>
+                    <div class="form-group input-equip">
+                        <input type="number" id="tesisat_${rowNumber}" value="0" min="0" max="9999" class="equip-input">
+                    </div>
+                    <div class="form-group input-equip">
+                        <input type="number" id="tezgah_${rowNumber}" value="0" min="0" max="9999" class="equip-input">
+                    </div>
+                    <div class="form-group input-equip">
+                        <input type="number" id="raf_${rowNumber}" value="0" min="0" max="9999" class="equip-input">
+                    </div>
+                    <div class="form-group input-equip">
+                        <input type="number" id="makine_${rowNumber}" value="0" min="0" max="9999" class="equip-input">
+                    </div>
+                    <div class="form-group input-equip">
+                        <input type="number" id="lpg_${rowNumber}" value="0" min="0" max="9999" class="equip-input">
+                    </div>
+                    <div class="form-group input-equip">
+                        <input type="number" id="merdiven_${rowNumber}" value="0" min="0" max="9999" class="equip-input">
+                    </div>
+                    <div class="form-group input-equip">
+                        <input type="number" id="kren_${rowNumber}" value="0" min="0" max="9999" class="equip-input">
+                    </div>
+                    <div class="form-group input-equip">
+                        <input type="number" id="erisim_${rowNumber}" value="0" min="0" max="9999" class="equip-input">
+                    </div>
+                    <button type="button" class="fill-down-btn" onclick="fillDownEquipment(${rowNumber})" tabindex="-1" title="Ekipman Sayılarını Aşağı Kopyala">▼</button>
+                </div>
+            `;
+        }
+        
+        // Satır ekle
+        function addRows(count) {
+            const container = document.getElementById('formRowsContainer');
+            
+            for (let i = 0; i < count; i++) {
+                rowCount++;
+                container.insertAdjacentHTML('beforeend', createRowHTML(rowCount));
+            }
+            
+            // SGK ve TC input'larına otomatik temizleme ekle
+            setupInputValidation();
+        }
+        
+        // Input validasyon
+        function setupInputValidation() {
+            document.querySelectorAll('.sgk-input').forEach(input => {
+                input.removeEventListener('input', sgkInputHandler);
+                input.addEventListener('input', sgkInputHandler);
+                
+                // Paste event - toplu SGK ekleme
+                input.removeEventListener('paste', sgkPasteHandler);
+                input.addEventListener('paste', sgkPasteHandler);
+            });
+            
+            document.querySelectorAll('.tc-input').forEach(input => {
+                input.removeEventListener('input', tcInputHandler);
+                input.addEventListener('input', tcInputHandler);
+                
+                // TC dropdown setup
+                input.removeEventListener('focus', tcFocusHandler);
+                input.addEventListener('focus', tcFocusHandler);
+                
+                input.removeEventListener('blur', tcBlurHandler);
+                input.addEventListener('blur', tcBlurHandler);
+                
+                input.removeEventListener('keydown', tcKeydownHandler);
+                input.addEventListener('keydown', tcKeydownHandler);
+            });
+            
+            document.querySelectorAll('.equip-input').forEach(input => {
+                input.removeEventListener('input', equipInputHandler);
+                input.addEventListener('input', equipInputHandler);
+                input.removeEventListener('keydown', equipKeydownHandler);
+                input.addEventListener('keydown', equipKeydownHandler);
+            });
+            
+            // Tüm inputlara Enter tuşu navigasyonu ekle
+            setupEnterKeyNavigation();
+        }
+        
+        // TC Dropdown Handlers
+        let selectedDropdownIndex = -1;
+        
+        function tcFocusHandler(e) {
+            showTcDropdown(e.target);
+        }
+        
+        function tcBlurHandler(e) {
+            // Önce temizle
+            cleanupTcInput(e.target);
+            
+            // Dropdown'a tıklamaya izin ver
+            setTimeout(() => {
+                const rowNum = e.target.dataset.row;
+                const dropdown = document.getElementById(`tcDropdown_${rowNum}`);
+                if (dropdown) {
+                    dropdown.classList.remove('active');
+                }
+                selectedDropdownIndex = -1;
+            }, 200);
+        }
+        
+        function tcKeydownHandler(e) {
+            const input = e.target;
+            const rowNum = input.dataset.row;
+            const dropdown = document.getElementById(`tcDropdown_${rowNum}`);
+            
+            if (!dropdown || !dropdown.classList.contains('active')) {
+                return;
+            }
+            
+            const items = dropdown.querySelectorAll('.tc-dropdown-item');
+            
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                selectedDropdownIndex = Math.min(selectedDropdownIndex + 1, items.length - 1);
+                updateDropdownSelection(items);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                selectedDropdownIndex = Math.max(selectedDropdownIndex - 1, 0);
+                updateDropdownSelection(items);
+            } else if (e.key === 'Enter' && selectedDropdownIndex >= 0) {
+                e.preventDefault();
+                items[selectedDropdownIndex].click();
+            } else if (e.key === 'Escape') {
+                dropdown.classList.remove('active');
+                selectedDropdownIndex = -1;
+            }
+        }
+        
+        function updateDropdownSelection(items) {
+            items.forEach((item, index) => {
+                if (index === selectedDropdownIndex) {
+                    item.classList.add('selected');
+                    item.scrollIntoView({ block: 'nearest' });
+                } else {
+                    item.classList.remove('selected');
+                }
+            });
+        }
+        
+        function showTcDropdown(input) {
+            const rowNum = input.dataset.row;
+            const dropdown = document.getElementById(`tcDropdown_${rowNum}`);
+            
+            if (!dropdown) {
+                console.error('Dropdown bulunamadı:', `tcDropdown_${rowNum}`);
+                return;
+            }
+            
+            const personeller = getPersoneller();
+            const searchTerm = input.value.toLowerCase();
+            
+            console.log('Personel sayısı:', personeller.length);
+            console.log('Arama terimi:', searchTerm);
+            
+            if (personeller.length === 0) {
+                dropdown.classList.remove('active');
+                return;
+            }
+            
+            // Görev bazlı say
+            const mekanikCount = personeller.filter(p => p.gorev === 'Mekanik').length;
+            const elektrikCount = personeller.filter(p => p.gorev === 'Elektrik').length;
+            
+            // Dropdown'u doldur
+            dropdown.innerHTML = '';
+            
+            // Görev seçenekleri (sadece personeli olanlar)
+            if (mekanikCount > 0 && 'mekanik'.includes(searchTerm)) {
+                const item = document.createElement('div');
+                item.className = 'tc-dropdown-item tc-dropdown-gorev';
+                item.textContent = `🔧 Mekanik (${mekanikCount} personel)`;
+                item.onclick = () => selectGorev(rowNum, 'Mekanik');
+                dropdown.appendChild(item);
+            }
+            
+            if (elektrikCount > 0 && 'elektrik'.includes(searchTerm)) {
+                const item = document.createElement('div');
+                item.className = 'tc-dropdown-item tc-dropdown-gorev';
+                item.textContent = `⚡ Elektrik (${elektrikCount} personel)`;
+                item.onclick = () => selectGorev(rowNum, 'Elektrik');
+                dropdown.appendChild(item);
+            }
+            
+            // Ayırıcı (eğer görevler varsa)
+            if ((mekanikCount > 0 || elektrikCount > 0) && personeller.length > 0) {
+                const divider = document.createElement('div');
+                divider.style.cssText = 'border-top: 2px solid #dee2e6; margin: 5px 0;';
+                dropdown.appendChild(divider);
+            }
+            
+            // Personel listesi (filtreli)
+            const filtered = personeller.filter(p =>
+                p.tc.includes(searchTerm) ||
+                p.adSoyad.toLowerCase().includes(searchTerm) ||
+                p.gorev.toLowerCase().includes(searchTerm)
+            );
+            
+            console.log('Filtrelenmiş:', filtered.length);
+            
+            filtered.forEach((p, index) => {
+                const item = document.createElement('div');
+                item.className = 'tc-dropdown-item';
+                item.textContent = `${p.tc} - ${p.adSoyad} (${p.gorev})`;
+                item.onclick = () => selectPersonel(rowNum, p);
+                dropdown.appendChild(item);
+            });
+            
+            // Hiç öğe yoksa kapat
+            if (dropdown.children.length === 0) {
+                dropdown.classList.remove('active');
+                return;
+            }
+            
+            // Input'un altına konumlandır
+            dropdown.style.top = (input.offsetHeight + 2) + 'px';
+            dropdown.style.left = '0';
+            
+            console.log('Dropdown aktif ediliyor...');
+            dropdown.classList.add('active');
+            selectedDropdownIndex = -1;
+        }
+        
+        function selectPersonel(rowNum, personel) {
+            const input = document.getElementById(`tcNo_${rowNum}`);
+            input.value = personel.tc;
+            input.dataset.type = 'personel'; // Tek kişi
+            input.dataset.personelId = personel.id;
+            input.dataset.gorev = personel.gorev; // Görevi de sakla
+            
+            const dropdown = document.getElementById(`tcDropdown_${rowNum}`);
+            dropdown.classList.remove('active');
+            
+            // Ekipman inputlarını görev bazlı etkinleştir/pasifleştir
+            toggleEquipmentInputs(rowNum, personel.gorev);
+            
+            // Bir sonraki inputa geç
+            focusNextInput(input);
+        }
+        
+        function selectGorev(rowNum, gorev) {
+            const input = document.getElementById(`tcNo_${rowNum}`);
+            input.value = gorev;
+            input.dataset.type = 'gorev'; // Toplu - görev bazlı
+            input.dataset.gorev = gorev;
+            
+            const dropdown = document.getElementById(`tcDropdown_${rowNum}`);
+            dropdown.classList.remove('active');
+            
+            // Ekipman inputlarını görev bazlı etkinleştir/pasifleştir
+            toggleEquipmentInputs(rowNum, gorev);
+            
+            // Bir sonraki inputa geç
+            focusNextInput(input);
+        }
+        
+        // Ekipman inputlarını görev bazlı aktif/pasif yap
+        function toggleEquipmentInputs(rowNum, gorev) {
+            const equipFields = ['basKap', 'kaldirma', 'tesisat', 'tezgah', 'raf', 'makine', 'lpg', 'merdiven', 'kren', 'erisim'];
+            
+            if (gorev === 'Elektrik') {
+                // Elektrik: Sadece Tesisat aktif
+                equipFields.forEach(field => {
+                    const input = document.getElementById(`${field}_${rowNum}`);
+                    if (input) {
+                        if (field === 'tesisat') {
+                            input.disabled = false;
+                            input.style.backgroundColor = '';
+                            input.style.cursor = '';
+                        } else {
+                            input.disabled = true;
+                            input.style.backgroundColor = '#e9ecef';
+                            input.style.cursor = 'not-allowed';
+                        }
+                    }
+                });
+            } else {
+                // Mekanik veya diğer: Tümü aktif
+                equipFields.forEach(field => {
+                    const input = document.getElementById(`${field}_${rowNum}`);
+                    if (input) {
+                        input.disabled = false;
+                        input.style.backgroundColor = '';
+                        input.style.cursor = '';
+                    }
+                });
+            }
+        }
+        
+        // TC input blur'da rakam kontrolü
+        function cleanupTcInput(input) {
+            // Sadece rakam bırak
+            const cleaned = input.value.replace(/\D/g, '').slice(0, 11);
+            if (input.value !== cleaned) {
+                input.value = cleaned;
+            }
+        }
+        
+        function sgkInputHandler(e) {
+            e.target.value = e.target.value.replace(/\D/g, '').slice(0, 26);
+            
+            // 26 hane doldu mu? Otomatik geçiş
+            if (e.target.value.length === 26) {
+                setTimeout(() => focusNextInput(e.target), 0);
+            }
+        }
+        
+        // SGK Paste Handler - Toplu Ekleme
+        function sgkPasteHandler(e) {
+            const pastedText = e.clipboardData.getData('text');
+            
+            // Çok satırlı mı kontrol et
+            if (!pastedText.includes('\n') && !pastedText.includes('\r')) {
+                // Tek satır - normal paste
+                return;
+            }
+            
+            // Çok satırlı! Default paste'i engelle
+            e.preventDefault();
+            
+            // Satırlara böl ve temizle
+            const lines = pastedText
+                .split(/[\r\n]+/)
+                .map(line => line.trim().replace(/\D/g, '').slice(0, 26))
+                .filter(line => line.length === 26); // Sadece 26 haneli olanlar
+            
+            if (lines.length === 0) {
+                alert('⚠️ Geçerli SGK No bulunamadı! (26 haneli sayı olmalı)');
+                return;
+            }
+            
+            // Başlangıç satırı
+            const currentInput = e.target;
+            const startRowNum = parseInt(currentInput.id.replace('sgkNo_', ''));
+            
+            console.log(`${lines.length} SGK yapıştırılıyor, başlangıç satırı: ${startRowNum}`);
+            
+            let currentRowNum = startRowNum;
+            let insertedCount = 0;
+            let skippedCount = 0;
+            
+            lines.forEach((sgkNo, index) => {
+                // Mevcut satır var mı?
+                let targetInput = document.getElementById(`sgkNo_${currentRowNum}`);
+                
+                if (!targetInput) {
+                    // Satır yok, yeni satır ekle
+                    addRows(1);
+                    targetInput = document.getElementById(`sgkNo_${currentRowNum}`);
+                }
+                
+                // Satır dolu mu?
+                const existingValue = targetInput.value.trim();
+                
+                if (existingValue && existingValue.length > 0) {
+                    // Satır dolu - araya ekle
+                    console.log(`Satır ${currentRowNum} dolu, araya ekleniyor...`);
+                    insertRowAfter(currentRowNum - 1);
+                    targetInput = document.getElementById(`sgkNo_${currentRowNum}`);
+                }
+                
+                // SGK'yı doldur
+                if (targetInput) {
+                    targetInput.value = sgkNo;
+                    insertedCount++;
+                    console.log(`Satır ${currentRowNum}: ${sgkNo}`);
+                } else {
+                    skippedCount++;
+                    console.error(`Satır ${currentRowNum} bulunamadı!`);
+                }
+                
+                currentRowNum++;
+            });
+            
+            // Sonuç mesajı
+            let message = `✅ ${insertedCount} SGK No eklendi!`;
+            if (skippedCount > 0) {
+                message += `\n⚠️ ${skippedCount} satır atlandı.`;
+            }
+            alert(message);
+            
+            // İlk eklenen satıra focus
+            const firstInput = document.getElementById(`sgkNo_${startRowNum}`);
+            if (firstInput) {
+                firstInput.focus();
+                firstInput.select();
+            }
+        }
+        
+        function tcInputHandler(e) {
+            const input = e.target;
+            const rowNum = input.dataset.row;
+            
+            // Maksimum 50 karakter (arama için)
+            if (input.value.length > 50) {
+                input.value = input.value.slice(0, 50);
+            }
+            
+            // Dropdown'u göster
+            const hasPersonel = getPersoneller().length > 0;
+            if (hasPersonel) {
+                showTcDropdown(input);
+            }
+            
+            // Sadece rakam varsa ve 11 hane doluysa otomatik geçiş
+            const onlyDigits = /^\d+$/.test(input.value);
+            if (onlyDigits && input.value.length === 11) {
+                setTimeout(() => focusNextInput(input), 0);
+            }
+        }
+        
+        function equipInputHandler(e) {
+            let val = e.target.value.replace(/\D/g, '');
+            if (val === '') {
+                e.target.value = '0';
+            } else {
+                val = parseInt(val);
+                if (val > 9999) val = 9999;
+                if (val < 0) val = 0;
+                e.target.value = val;
+            }
+        }
+        
+        // Ekipman inputları için Enter tuşu
+        function equipKeydownHandler(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                
+                // En son satırın en son inputu mu?
+                const allInputs = Array.from(document.querySelectorAll('input:not([readonly])'));
+                const currentIndex = allInputs.indexOf(e.target);
+                
+                if (currentIndex === allInputs.length - 1) {
+                    // Son input - Tümünü Ekle butonunu aktif et
+                    document.querySelector('.btn-submit').focus();
+                } else {
+                    focusNextInput(e.target);
+                }
+            }
+        }
+        
+        // Enter tuşu ile navigasyon
+        function setupEnterKeyNavigation() {
+            const allInputs = document.querySelectorAll('input:not([readonly])');
+            
+            allInputs.forEach((input, index) => {
+                // Ekipman inputları için ayrı handler var
+                if (input.classList.contains('equip-input')) return;
+                
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        focusNextInput(input);
+                    }
+                });
+            });
+        }
+        
+        // Bir sonraki inputa geç
+        function focusNextInput(currentInput) {
+            const allInputs = Array.from(document.querySelectorAll('input:not([readonly])'));
+            const currentIndex = allInputs.indexOf(currentInput);
+            
+            if (currentIndex < allInputs.length - 1) {
+                allInputs[currentIndex + 1].focus();
+                allInputs[currentIndex + 1].select();
+            }
+        }
+        
+        // Fill Down (Ctrl+D) - Excel tarzı aşağı kopyalama
+        function fillDown(fieldPrefix, currentRow) {
+            const currentInput = document.getElementById(`${fieldPrefix}_${currentRow}`);
+            const value = currentInput.value.trim();
+            
+            if (!value) {
+                alert('⚠️ Kopyalanacak veri yok!');
+                return;
+            }
+            
+            // Bir sonraki satır var mı kontrol et
+            const nextRow = currentRow + 1;
+            const nextInput = document.getElementById(`${fieldPrefix}_${nextRow}`);
+            
+            if (!nextInput) {
+                // Sonraki satır yok - yeni satır ekle
+                addRows(1);
+                
+                // Yeni eklenen satıra kopyala
+                setTimeout(() => {
+                    const newInput = document.getElementById(`${fieldPrefix}_${nextRow}`);
+                    if (newInput) {
+                        newInput.value = value;
+                        newInput.focus();
+                        newInput.select();
+                    }
+                }, 50);
+                return;
+            }
+            
+            // Sonraki satır var
+            const nextValue = nextInput.value.trim();
+            
+            if (nextValue) {
+                // Alt satır dolu - araya satır ekle
+                if (confirm(`Satır ${nextRow} dolu. Araya yeni satır eklensin mi?`)) {
+                    insertRowAfter(currentRow);
+                    
+                    // Yeni eklenen satıra kopyala
+                    setTimeout(() => {
+                        const newInput = document.getElementById(`${fieldPrefix}_${nextRow}`);
+                        if (newInput) {
+                            newInput.value = value;
+                            newInput.focus();
+                            newInput.select();
+                        }
+                    }, 50);
+                }
+            } else {
+                // Alt satır boş - direkt kopyala
+                nextInput.value = value;
+                nextInput.focus();
+                nextInput.select();
+            }
+        }
+        
+        // Ekipman Sayılarını Aşağı Kopyala (Tüm ekipman inputları)
+        function fillDownEquipment(currentRow) {
+            // Mevcut satırdaki tüm ekipman değerlerini al
+            const equipFields = ['basKap', 'kaldirma', 'tesisat', 'tezgah', 'raf', 'makine', 'lpg', 'merdiven', 'kren', 'erisim'];
+            const values = {};
+            
+            equipFields.forEach(field => {
+                const input = document.getElementById(`${field}_${currentRow}`);
+                values[field] = input ? input.value : '0';
+            });
+            
+            // Bir sonraki satır var mı kontrol et
+            const nextRow = currentRow + 1;
+            const nextRowExists = document.getElementById(`basKap_${nextRow}`);
+            
+            if (!nextRowExists) {
+                // Sonraki satır yok - yeni satır ekle
+                addRows(1);
+                
+                // Yeni eklenen satıra kopyala
+                setTimeout(() => {
+                    equipFields.forEach(field => {
+                        const newInput = document.getElementById(`${field}_${nextRow}`);
+                        if (newInput) {
+                            newInput.value = values[field];
+                        }
+                    });
+                }, 50);
+                return;
+            }
+            
+            // Sonraki satır var - ekipman inputlarından herhangi biri dolu mu kontrol et
+            const nextRowHasData = equipFields.some(field => {
+                const input = document.getElementById(`${field}_${nextRow}`);
+                return input && input.value.trim() !== '' && input.value !== '0';
+            });
+            
+            if (nextRowHasData) {
+                // Alt satırda ekipman verisi var - kullanıcıya sor
+                const choice = confirm(`Satır ${nextRow}'da ekipman verisi var.\n\nTAMAM: Araya yeni satır ekle\nİPTAL: Üzerine yaz`);
+                
+                if (choice) {
+                    // TAMAM - Araya satır ekle
+                    insertRowAfter(currentRow);
+                    
+                    // Yeni eklenen satıra kopyala
+                    setTimeout(() => {
+                        equipFields.forEach(field => {
+                            const newInput = document.getElementById(`${field}_${nextRow}`);
+                            if (newInput) {
+                                newInput.value = values[field];
+                            }
+                        });
+                    }, 50);
+                } else {
+                    // İPTAL - Üzerine yaz
+                    equipFields.forEach(field => {
+                        const nextInput = document.getElementById(`${field}_${nextRow}`);
+                        if (nextInput) {
+                            nextInput.value = values[field];
+                        }
+                    });
+                }
+            } else {
+                // Alt satır boş - direkt kopyala
+                equipFields.forEach(field => {
+                    const nextInput = document.getElementById(`${field}_${nextRow}`);
+                    if (nextInput) {
+                        nextInput.value = values[field];
+                    }
+                });
+            }
+        }
+        
+        // Satırdan sonra yeni satır ekle
+        function insertRowAfter(afterRow) {
+            const container = document.getElementById('formRowsContainer');
+            const rows = container.querySelectorAll('.form-row');
+            
+            // Yeni satır numarası
+            rowCount++;
+            const newRowNumber = afterRow + 1;
+            
+            // Yeni satır HTML'i oluştur
+            const newRowHTML = createRowHTML(newRowNumber);
+            
+            // Mevcut satırdan sonraki tüm satırları yeniden numaralandır
+            for (let i = rows.length - 1; i >= afterRow; i--) {
+                const row = rows[i];
+                const oldRowNum = parseInt(row.dataset.row);
+                const newRowNum = oldRowNum + 1;
+                
+                // Satır numarasını güncelle
+                row.dataset.row = newRowNum;
+                row.querySelector('.row-number').textContent = newRowNum;
+                
+                // Tüm inputların ID'lerini güncelle
+                updateRowInputIds(row, oldRowNum, newRowNum);
+            }
+            
+            // Yeni satırı ekle
+            if (afterRow === 0) {
+                container.insertAdjacentHTML('afterbegin', newRowHTML);
+            } else {
+                const afterRowElement = rows[afterRow - 1];
+                afterRowElement.insertAdjacentHTML('afterend', newRowHTML);
+            }
+            
+            // Validasyon kurulumunu yenile
+            setupInputValidation();
+        }
+        
+        // Satırdaki tüm input ID'lerini güncelle
+        function updateRowInputIds(row, oldNum, newNum) {
+            const inputs = row.querySelectorAll('input');
+            
+            inputs.forEach(input => {
+                const oldId = input.id;
+                const newId = oldId.replace(`_${oldNum}`, `_${newNum}`);
+                input.id = newId;
+            });
+            
+            // Butonların onclick'lerini güncelle
+            const buttons = row.querySelectorAll('.fill-down-btn');
+            buttons.forEach(btn => {
+                const onclick = btn.getAttribute('onclick');
+                const newOnclick = onclick.replace(`, ${oldNum})`, `, ${newNum})`);
+                btn.setAttribute('onclick', newOnclick);
+            });
+        }
+        
+        // Tek satırdan veri al (görev veya tek kişi)
+        function getRowData(rowNumber) {
+            const surecId = document.getElementById(`surecId_${rowNumber}`).value.trim() || '322';
+            const sgkNo = document.getElementById(`sgkNo_${rowNumber}`).value.trim();
+            const tcInput = document.getElementById(`tcNo_${rowNumber}`);
+            const tcValue = tcInput.value.trim();
+            const dataType = tcInput.dataset.type; // 'personel' veya 'gorev'
+            
+            // Boş satırları atla
+            if (!sgkNo && !tcValue) {
+                return null;
+            }
+            
+            // SGK validasyonu
+            if (sgkNo.length !== 26 || !/^\d{26}$/.test(sgkNo)) {
+                return { error: `Satır ${rowNumber}: SGK No 26 haneli sayı olmalı` };
+            }
+            
+            // Ekipman sayıları
+            const tcGorev = tcInput.dataset.gorev; // Seçilen görev
+            
+            // Elektrik personeli için sadece Tesisat
+            let basKap, kaldirma, tesisat, tezgah, raf, makine, lpg, merdiven, kren, erisim;
+            
+            if (tcGorev === 'Elektrik' || (dataType === 'gorev' && tcInput.dataset.gorev === 'Elektrik')) {
+                // Elektrik: Sadece Tesisat
+                basKap = '0';
+                kaldirma = '0';
+                tesisat = document.getElementById(`tesisat_${rowNumber}`).value || '0';
+                tezgah = '0';
+                raf = '0';
+                makine = '0';
+                lpg = '0';
+                merdiven = '0';
+                kren = '0';
+                erisim = '0';
+            } else {
+                // Mekanik veya diğer: Tümü
+                basKap = document.getElementById(`basKap_${rowNumber}`).value || '0';
+                kaldirma = document.getElementById(`kaldirma_${rowNumber}`).value || '0';
+                tesisat = document.getElementById(`tesisat_${rowNumber}`).value || '0';
+                tezgah = document.getElementById(`tezgah_${rowNumber}`).value || '0';
+                raf = document.getElementById(`raf_${rowNumber}`).value || '0';
+                makine = document.getElementById(`makine_${rowNumber}`).value || '0';
+                lpg = document.getElementById(`lpg_${rowNumber}`).value || '0';
+                merdiven = document.getElementById(`merdiven_${rowNumber}`).value || '0';
+                kren = document.getElementById(`kren_${rowNumber}`).value || '0';
+                erisim = document.getElementById(`erisim_${rowNumber}`).value || '0';
+            }
+            
+            // Görev seçilmişse - çoğalt
+            if (dataType === 'gorev') {
+                const gorev = tcInput.dataset.gorev;
+                const personeller = getPersoneller().filter(p => p.gorev === gorev);
+                
+                if (personeller.length === 0) {
+                    return { error: `Satır ${rowNumber}: ${gorev} personeli yok, atlandı`, warning: true };
+                }
+                
+                // Her personel için kayıt oluştur
+                const records = personeller.map(p => 
+                    `${surecId};${sgkNo};${p.tc};${basKap};${kaldirma};${tesisat};${tezgah};${raf};${makine};${lpg};${merdiven};${kren};${erisim}`
+                );
+                
+                return { type: 'gorev', gorev: gorev, count: personeller.length, records: records };
+            }
+            
+            // Tek kişi seçilmişse - TC validasyonu
+            if (tcValue.length !== 11 || !/^\d{11}$/.test(tcValue)) {
+                return { error: `Satır ${rowNumber}: TC No 11 haneli sayı olmalı` };
+            }
+            
+            return `${surecId};${sgkNo};${tcValue};${basKap};${kaldirma};${tesisat};${tezgah};${raf};${makine};${lpg};${merdiven};${kren};${erisim}`;
+        }
+        
+        // Tüm satırları işle
+        function submitAllRows() {
+            const errors = [];
+            const warnings = [];
+            const newLines = [];
+            const skippedRows = [];
+            let gorevExpanded = 0; // Görev seçimiyle eklenen kayıt sayısı
+            
+            for (let i = 1; i <= rowCount; i++) {
+                const rowData = getRowData(i);
+                
+                if (rowData === null) {
+                    // Boş satır, atla
+                    continue;
+                }
+                
+                if (rowData.error) {
+                    if (rowData.warning) {
+                        warnings.push(rowData.error);
+                    } else {
+                        errors.push(rowData.error);
+                    }
+                    skippedRows.push(i);
+                } else if (rowData.type === 'gorev') {
+                    // Görev seçimi - çoğaltılmış kayıtlar
+                    gorevExpanded += rowData.count;
+                    newLines.push(...rowData.records);
+                } else {
+                    // Tek kayıt
+                    newLines.push(rowData);
+                }
+            }
+            
+            // Hiç veri yok mu?
+            if (newLines.length === 0 && errors.length === 0) {
+                alert('⚠️ Hiç veri girilmemiş!');
+                return;
+            }
+            
+            // Sadece hata var, geçerli veri yok
+            if (newLines.length === 0 && errors.length > 0) {
+                alert('⚠️ Hiç geçerli satır yok!\n\n' + errors.join('\n'));
+                return;
+            }
+            
+            // Mükerrerlik kontrolü (SGK + TC unique olmalı)
+            const existingKeys = new Set(dataLines.map(line => {
+                const parts = line.split(';');
+                return `${parts[1]}_${parts[2]}`; // SGK_TC
+            }));
+            
+            const uniqueNewLines = [];
+            const duplicates = [];
+            
+            newLines.forEach(line => {
+                const parts = line.split(';');
+                const key = `${parts[1]}_${parts[2]}`; // SGK_TC
+                
+                if (existingKeys.has(key)) {
+                    duplicates.push(`${parts[1]} - ${parts[2]}`);
+                } else {
+                    existingKeys.add(key);
+                    uniqueNewLines.push(line);
+                }
+            });
+            
+            // Hiç unique kayıt kalmadıysa
+            if (uniqueNewLines.length === 0) {
+                alert('⚠️ Tüm kayıtlar mükerrer! (SGK+TC aynı)\n\nÇıktıda zaten mevcut.');
+                return;
+            }
+            
+            // Verileri ekle
+            dataLines = dataLines.concat(uniqueNewLines);
+            updateOutput();
+            
+            // Sonuç mesajı
+            let message = `✅ ${uniqueNewLines.length} kayıt eklendi!`;
+            
+            if (gorevExpanded > 0) {
+                message += `\n\n🔧 Görev seçimiyle ${gorevExpanded} personel eklendi`;
+            }
+            
+            if (duplicates.length > 0) {
+                message += `\n\n⚠️ ${duplicates.length} mükerrer kayıt atlandı (SGK+TC aynı)`;
+            }
+            
+            if (warnings.length > 0) {
+                message += `\n\n⚠️ Uyarılar:\n` + warnings.join('\n');
+            }
+            
+            if (errors.length > 0) {
+                message += `\n\n❌ Hatalar:\n` + errors.join('\n');
+            }
+            
+            // Başarı mesajı
+            const successMsg = document.getElementById('successMessage');
+            successMsg.textContent = `✅ ${uniqueNewLines.length} kayıt eklendi!`;
+            successMsg.style.display = 'block';
+            setTimeout(() => successMsg.style.display = 'none', 2000);
+            
+            // Detaylı göster
+            if (gorevExpanded > 0 || duplicates.length > 0 || warnings.length > 0 || errors.length > 0) {
+                setTimeout(() => alert(message), 100);
+            }
+            
+            // Form TEMİZLENMEZ - Kullanıcı düzeltip tekrar ekleyebilir
+        }
+        
+        // Tüm satırları temizle
+        function clearAllRows() {
+            document.getElementById('formRowsContainer').innerHTML = '';
+            rowCount = 0;
+        }
+        
+        // Çıktıyı güncelle
+        function updateOutput() {
+            document.getElementById('output').value = dataLines.join('\n');
+            document.getElementById('counter').textContent = dataLines.length + ' kayıt';
+        }
+        
+        // Çıktıyı temizle
+        function clearOutput() {
+            if (dataLines.length === 0) return;
+            
+            if (confirm(`${dataLines.length} kayıt silinecek. Emin misiniz?`)) {
+                dataLines = [];
+                updateOutput();
+            }
+        }
+        
+        // Kopyala
+        function copyToClipboard() {
+            const output = document.getElementById('output');
+            
+            if (dataLines.length === 0) {
+                alert('⚠️ Kopyalanacak veri yok!');
+                return;
+            }
+            
+            output.select();
+            document.execCommand('copy');
+            
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = '✅ Kopyalandı!';
+            btn.style.background = '#28a745';
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '#17a2b8';
+            }, 2000);
+        }
+        
+        // Katibe Gönder
+        function sendToKatip() {
+            if (dataLines.length === 0) {
+                alert('⚠️ Gönderilecek veri yok!');
+                return;
+            }
+            
+            // LocalStorage'a kaydet
+            const data = dataLines.join('\n');
+            localStorage.setItem('isgKatipPeriyodikKontrolData', data);
+            
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = `✅ ${dataLines.length} kayıt gönderildi!`;
+            btn.style.background = '#28a745';
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '#28a745';
+            }, 2000);
+            
+            alert(`✅ ${dataLines.length} kayıt tarayıcıya kaydedildi!\n\nŞimdi İSG Katip'te bookmarklet'i çalıştırabilirsiniz.`);
+        }
+    </script>
+</body>
+</html>
