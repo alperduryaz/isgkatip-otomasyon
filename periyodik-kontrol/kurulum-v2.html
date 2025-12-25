@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Periyodik Kontrol - Kurulum</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        .header h1 { font-size: 32px; margin-bottom: 10px; }
+        .header p { font-size: 18px; opacity: 0.9; }
+        .content { padding: 40px 30px; }
+        .bookmarklet-area {
+            background: #f8f9fa;
+            border: 3px dashed #17a2b8;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .bookmarklet-area h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .bookmarklet-button {
+            display: inline-block;
+            padding: 20px 40px;
+            background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+            color: white !important;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: move;
+            box-shadow: 0 4px 15px rgba(23, 162, 184, 0.4);
+            transition: all 0.3s;
+            border: 3px solid #17a2b8;
+        }
+        .bookmarklet-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(23, 162, 184, 0.6);
+        }
+        .instruction {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .instruction-title {
+            font-weight: bold;
+            color: #856404;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        .steps { margin-top: 30px; }
+        .step {
+            display: flex;
+            align-items: start;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #17a2b8;
+        }
+        .step-number {
+            background: #17a2b8;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .step-content { flex: 1; }
+        .step-content h3 {
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 18px;
+        }
+        .step-content p {
+            color: #666;
+            line-height: 1.6;
+        }
+        .alternative {
+            background: #e7f3ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        .alternative h3 {
+            color: #004085;
+            margin-bottom: 15px;
+        }
+        .alternative ol {
+            margin-left: 20px;
+        }
+        .alternative li {
+            margin-bottom: 10px;
+            color: #004085;
+        }
+        .alternative a {
+            color: #17a2b8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .alternative a:hover {
+            text-decoration: underline;
+        }
+        .footer {
+            background: #f8f9fa;
+            padding: 20px 30px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #dee2e6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Periyodik Kontrol Otomasyon</h1>
+            <p>Bookmarklet Kurulum Sayfası</p>
+        </div>
+        
+        <div class="content">
+            <div class="bookmarklet-area">
+                <h2>📌 Aşağıdaki Butonu Yer İmlerine Sürükleyin</h2>
+                <a href="#" class="bookmarklet-button" id="bookmarkletLink">
+                    🚀 Periyodik Kontrol
+                </a>
+                <p style="margin-top: 20px; color: #666; font-size: 14px;">
+                    ⬆️ Yukarıdaki mavi butonu fareyle tutup yer imi çubuğunuza bırakın
+                </p>
+            </div>
+            
+            <div class="instruction">
+                <div class="instruction-title">⚠️ Önemli Not</div>
+                <p>Bu işlem <strong>masaüstü tarayıcılarda</strong> (Chrome, Edge, Firefox) çalışır.</p>
+            </div>
+            
+            <div class="steps">
+                <h2 style="margin-bottom: 20px; color: #333;">📖 Adım Adım Kurulum</h2>
+                
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Yer İmi Çubuğunu Göster</h3>
+                        <p><strong>Chrome/Edge:</strong> Ctrl+Shift+B</p>
+                        <p><strong>Firefox:</strong> Ctrl+Shift+B</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Butonu Sürükle</h3>
+                        <p>Yukarıdaki mavi butonu fareyle tutun ve yer imi çubuğunuza sürükleyin.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Kullanıma Hazır!</h3>
+                        <p>İSG Katip'te bu yer imine tıklayarak aracı kullanabilirsiniz.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="alternative">
+                <h3>💻 Manuel Kurulum</h3>
+                <ol>
+                    <li><a href="https://raw.githubusercontent.com/alperduryaz/isgkatip-otomasyon/main/periyodik-kontrol/bookmarklet-v2.txt" target="_blank">Kodu buradan</a> açın ve kopyalayın</li>
+                    <li>Yeni yer imi oluşturun (Ctrl+D)</li>
+                    <li>İsim: <code>Periyodik Kontrol</code></li>
+                    <li>URL'ye kodu yapıştırın</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>v2.0 | 2024-12-24</p>
+        </div>
+    </div>
+    
+    <script>
+        // Bookmarklet kodunu GitHub'dan çek ve linke ekle
+        fetch('https://raw.githubusercontent.com/alperduryaz/isgkatip-otomasyon/main/periyodik-kontrol/bookmarklet-v2.txt')
+            .then(r => r.text())
+            .then(code => {
+                // Sadece başı sonu temizle
+                const cleanCode = code.trim();
+                document.getElementById('bookmarkletLink').href = cleanCode;
+                console.log('Bookmarklet yüklendi, uzunluk:', cleanCode.length);
+            })
+            .catch(err => {
+                console.error('Kod yüklenemedi:', err);
+                alert('Bookmarklet kodu yüklenemedi. Manuel kurulum yapın.');
+            });
+    </script>
+</body>
+</html>
