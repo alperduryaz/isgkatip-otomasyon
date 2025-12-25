@@ -210,17 +210,19 @@
     </div>
     
     <script>
-        // Bookmarklet kodunu GitHub'dan çek ve linke ekle
-        fetch('https://raw.githubusercontent.com/alperduryaz/isgkatip-otomasyon/main/periyodik-kontrol/bookmarklet-v2.txt')
+        // Bookmarklet kodunu jsDelivr CDN'den çek (daha güvenilir)
+        fetch('https://cdn.jsdelivr.net/gh/alperduryaz/isgkatip-otomasyon@main/periyodik-kontrol/bookmarklet-v2.txt')
             .then(r => r.text())
             .then(code => {
-                // Sadece başı sonu temizle
                 const cleanCode = code.trim();
                 document.getElementById('bookmarkletLink').href = cleanCode;
-                console.log('Bookmarklet yüklendi, uzunluk:', cleanCode.length);
+                console.log('✅ Bookmarklet yüklendi!');
+                console.log('📏 Uzunluk:', cleanCode.length, 'karakter');
+                console.log('🔍 Başlangıç:', cleanCode.substring(0, 50));
+                console.log('🔍 Bitiş:', cleanCode.substring(cleanCode.length - 50));
             })
             .catch(err => {
-                console.error('Kod yüklenemedi:', err);
+                console.error('❌ Kod yüklenemedi:', err);
                 alert('Bookmarklet kodu yüklenemedi. Manuel kurulum yapın.');
             });
     </script>
