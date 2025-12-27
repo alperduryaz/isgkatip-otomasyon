@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Periyodik Kontrol - Kurulum</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+        
+        .bookmarklet-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+            color: white !important;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: move;
+            box-shadow: 0 4px 15px rgba(23, 162, 184, 0.4);
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+        
+        .bookmarklet-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(23, 162, 184, 0.6);
+        }
+        
+        .bookmarklet-link {
+            display: inline-block;
+            color: #17a2b8;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 10px 20px;
+            border: 2px solid #17a2b8;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .bookmarklet-link:hover {
+            background: #17a2b8;
+            color: white;
+        }
+        
+        .copy-button {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        
+        .copy-button:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+        
+        .description {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.8;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #e9ecef;
+        }
+        
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .toast.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Periyodik Kontrol Kurulum</h1>
+        
+        <!-- BUTON: Sürükle-Bırak -->
+        <a href="#" class="bookmarklet-button" id="dragButton">
+            Surukle Birak
+        </a>
+        
+        <br>
+        
+        <!-- LINK: Sağ Tık -->
+        <a href="#" class="bookmarklet-link" id="rightClickLink">
+            📌 Bookmarklet
+        </a>
+        
+        <br>
+        
+        <!-- BUTON: Kopyala -->
+        <button class="copy-button" onclick="copyCode()">
+            📋 Kodu Kopyala
+        </button>
+        
+        <!-- AÇIKLAMA -->
+        <div class="description">
+            <strong>Surukle Birak</strong> butonunu yer imi cubuguna surukleyerek ekleyebilir, 
+            <strong>Bookmarklet</strong> linkine sag tiklayarak yer imi cubuguna ekleyebilir 
+            veya <strong>Kodu Kopyala</strong> butonu ile kodu kopyalayarak elle yer imi olusturabilirsiniz.
+        </div>
+    </div>
+    
+    <!-- Toast Bildirim -->
+    <div class="toast" id="toast">
+        ✅ Kod kopyalandi! Simdi Ctrl+D yapip URL'ye yapistirin.
+    </div>
+    
+    <script>
+        // Bookmarklet kodunu GitHub'dan yükle
+        fetch('https://raw.githubusercontent.com/alperduryaz/isgkatip-otomasyon/main/periyodik-kontrol/bookmarklet-v3-notr.txt')
+            .then(r => r.text())
+            .then(code => {
+                const cleanCode = code.trim();
+                document.getElementById('dragButton').href = cleanCode;
+                document.getElementById('rightClickLink').href = cleanCode;
+                console.log('✅ Bookmarklet yuklendi:', cleanCode.length, 'karakter');
+            })
+            .catch(err => {
+                console.error('❌ Yukleme hatasi:', err);
+                alert('Bookmarklet yuklenemedi. Manuel kurulum yapin.');
+            });
+        
+        // Kodu kopyala
+        function copyCode() {
+            const code = document.getElementById('dragButton').href;
+            
+            navigator.clipboard.writeText(code).then(() => {
+                // Toast göster
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                
+                // 3 saniye sonra gizle
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }).catch(err => {
+                alert('Kopyalama basarisiz! Manuel yapin:\n' + code);
+            });
+        }
+    </script>
+</body>
+</html>
