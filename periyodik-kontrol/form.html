@@ -51,6 +51,38 @@
             flex-shrink: 0;
         }
         
+        .toggle-container {
+            display: inline-flex;
+            background: #607D8B;
+            border-radius: 20px;
+            padding: 3px;
+            margin-right: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .toggle-btn {
+            background: transparent;
+            color: rgba(255,255,255,0.7);
+            padding: 6px 15px;
+            border: none;
+            border-radius: 17px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        
+        .toggle-btn.active {
+            background: white;
+            color: #607D8B;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .toggle-btn:hover:not(.active) {
+            color: white;
+        }
+        
         .btn-personel {
             background: #28a745;
             color: white;
@@ -777,6 +809,10 @@
         <div class="header">
             <h1>🔧 Periyodik Kontrol - Veri Oluşturucu</h1>
             <div class="header-buttons">
+                <div class="toggle-container">
+                    <button type="button" class="toggle-btn active" data-mode="sgk">SGK No</button>
+                    <button type="button" class="toggle-btn" data-mode="detsis">DetSis No</button>
+                </div>
                 <button type="button" class="btn-personel" onclick="openPersonelModal()">👥 Personeller</button>
                 <button type="button" class="btn-add-row" onclick="addRows(1)">➕ 1 Satır</button>
                 <button type="button" class="btn-add-row" onclick="addRows(5)">➕ 5 Satır</button>
@@ -789,7 +825,7 @@
             <div class="table-header">
                 <div class="table-cell cell-row">#</div>
                 <div class="table-cell cell-tur">Tür</div>
-                <div class="table-cell cell-sgk">SGK No (26)</div>
+                <div class="table-cell cell-sgk" id="isyeriLabel">SGK No (26)</div>
                 <div style="width: 26px;"></div> <!-- SGK fill-down butonu boşluğu -->
                 <div class="table-cell cell-tc">TC No (11)</div>
                 <div style="width: 26px;"></div> <!-- TC fill-down butonu boşluğu -->
@@ -906,6 +942,63 @@
         let rowCount = 0;
         let dataLines = [];
         let editingPersonelId = null; // Düzenleme modu için
+        let currentMode = 'sgk'; // default: sgk
+        
+        // ============ TOGGLE FONKSİYONELLİĞİ ============
+        
+        // Toggle butonları için event listener ekle
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleButtons = document.querySelectorAll('.toggle-btn');
+            
+            toggleButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const newMode = this.getAttribute('data-mode');
+                    
+                    if (newMode === currentMode) return; // Zaten aktif
+                    
+                    // Değişiklik yapılmadan önce uyar
+                    if (dataLines.length > 0) {
+                        if (!confirm('⚠️ Mod değiştirdiğinizde mevcut veriler temizlenecek!\n\nDevam etmek istiyor musunuz?')) {
+                            return;
+                        }
+                    }
+                    
+                    // Toggle aktif/pasif
+                    toggleButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Modu değiştir
+                    currentMode = newMode;
+                    updateUIForMode(newMode);
+                    
+                    // Formu temizle
+                    clearAllRows();
+                });
+            });
+        });
+        
+        // UI'yi moda göre güncelle
+        function updateUIForMode(mode) {
+            const isyeriLabel = document.getElementById('isyeriLabel');
+            const isDetsis = mode === 'detsis';
+            const isyeriHane = isDetsis ? 8 : 26;
+            const isyeriPlaceholder = isDetsis ? '8 haneli DetSis No' : '26 haneli SGK No';
+            
+            // Header label'ı güncelle
+            if (mode === 'sgk') {
+                isyeriLabel.textContent = 'SGK No (26)';
+            } else {
+                isyeriLabel.textContent = 'DetSis No (8)';
+            }
+            
+            // MEVCUT tüm satırlardaki inputları güncelle
+            document.querySelectorAll('.sgk-input').forEach(input => {
+                input.placeholder = isyeriPlaceholder;
+                input.maxLength = isyeriHane;
+                // Mevcut değeri temizle (hane sayısı değişti)
+                input.value = '';
+            });
+        }
         
         // ============ PERSONEL YÖNETİMİ ============
         
@@ -1230,6 +1323,10 @@
         
         // Satır HTML'i oluştur
         function createRowHTML(rowNumber) {
+            const isDetsis = currentMode === 'detsis';
+            const isyeriMaxLength = isDetsis ? 8 : 26;
+            const isyeriPlaceholder = isDetsis ? '8 haneli DetSis No' : '26 haneli SGK No';
+            
             return `
                 <div class="form-row" data-row="${rowNumber}">
                     <div class="row-number">${rowNumber}</div>
@@ -1237,7 +1334,7 @@
                         <input type="text" id="surecId_${rowNumber}" value="322" readonly tabindex="-1" style="background: #e9ecef; cursor: not-allowed;">
                     </div>
                     <div class="form-group input-sgk">
-                        <input type="text" id="sgkNo_${rowNumber}" placeholder="26 haneli" maxlength="26" class="sgk-input">
+                        <input type="text" id="sgkNo_${rowNumber}" placeholder="${isyeriPlaceholder}" maxlength="${isyeriMaxLength}" class="sgk-input">
                     </div>
                     <button type="button" class="fill-down-btn" onclick="fillDown('sgkNo', ${rowNumber})" tabindex="-1" title="Aşağı kopyala (Ctrl+D)">▼</button>
                     <div class="form-group input-tc" style="position: relative;">
@@ -1550,10 +1647,13 @@
         }
         
         function sgkInputHandler(e) {
-            e.target.value = e.target.value.replace(/\D/g, '').slice(0, 26);
+            const isDetsis = currentMode === 'detsis';
+            const maxLength = isDetsis ? 8 : 26;
             
-            // 26 hane doldu mu? Otomatik geçiş
-            if (e.target.value.length === 26) {
+            e.target.value = e.target.value.replace(/\D/g, '').slice(0, maxLength);
+            
+            // Maksimum hane doldu mu? Otomatik geçiş
+            if (e.target.value.length === maxLength) {
                 setTimeout(() => focusNextInput(e.target), 0);
             }
         }
@@ -1561,6 +1661,9 @@
         // SGK Paste Handler - Toplu Ekleme
         function sgkPasteHandler(e) {
             const pastedText = e.clipboardData.getData('text');
+            const isDetsis = currentMode === 'detsis';
+            const maxLength = isDetsis ? 8 : 26;
+            const fieldLabel = isDetsis ? 'DetSis No' : 'SGK No';
             
             // Çok satırlı mı kontrol et
             if (!pastedText.includes('\n') && !pastedText.includes('\r')) {
@@ -1574,11 +1677,11 @@
             // Satırlara böl ve temizle
             const lines = pastedText
                 .split(/[\r\n]+/)
-                .map(line => line.trim().replace(/\D/g, '').slice(0, 26))
-                .filter(line => line.length === 26); // Sadece 26 haneli olanlar
+                .map(line => line.trim().replace(/\D/g, '').slice(0, maxLength))
+                .filter(line => line.length === maxLength); // Sadece doğru haneli olanlar
             
             if (lines.length === 0) {
-                alert('⚠️ Geçerli SGK No bulunamadı! (26 haneli sayı olmalı)');
+                alert(`⚠️ Geçerli ${fieldLabel} bulunamadı! (${maxLength} haneli sayı olmalı)`);
                 return;
             }
             
@@ -1586,7 +1689,7 @@
             const currentInput = e.target;
             const startRowNum = parseInt(currentInput.id.replace('sgkNo_', ''));
             
-            console.log(`${lines.length} SGK yapıştırılıyor, başlangıç satırı: ${startRowNum}`);
+            console.log(`${lines.length} ${fieldLabel} yapıştırılıyor, başlangıç satırı: ${startRowNum}`);
             
             let currentRowNum = startRowNum;
             let insertedCount = 0;
@@ -1920,9 +2023,14 @@
                 return null;
             }
             
-            // SGK validasyonu
-            if (sgkNo.length !== 26 || !/^\d{26}$/.test(sgkNo)) {
-                return { error: `Satır ${rowNumber}: SGK No 26 haneli sayı olmalı` };
+            // İşyeri no validasyonu (mode'a göre)
+            const isDetsis = currentMode === 'detsis';
+            const isyeriHane = isDetsis ? 8 : 26;
+            const isyeriLabel = isDetsis ? 'DetSis No' : 'SGK No';
+            const isyeriRegex = new RegExp(`^\\d{${isyeriHane}}$`);
+            
+            if (sgkNo.length !== isyeriHane || !isyeriRegex.test(sgkNo)) {
+                return { error: `Satır ${rowNumber}: ${isyeriLabel} ${isyeriHane} haneli sayı olmalı` };
             }
             
             // Ekipman sayıları
@@ -2203,12 +2311,17 @@
                 const s2=await mk('https://isgkatip.csgb.gov.tr/be/quote/updateFlowInstance',{body:{quoteKey:{businessInteractionInstanceId:id},flowInstancePage:{bsnInterFlowInscId:fid,bsnInterFlowPgId:10143,name:"Info Page",scrOrd:1,postActnStId:1101},page:{type:"isg.katip.common.dto.bsninter.BusinessInteractionPageWarningDTO",isActv:1,isLocked:false,bsnInterPgWrngId:8212,bsnInterPgId:10143,name:"Info Page",businessInteractionName:"CONTRACT PERIODIC CONTROL",businessInteractionInstanceId:id},operation:{isActv:1,businessInteractionPageOperationId:26507,operationActionType:10,businessInteractionPageOperationName:"Next",businessInteractionPageOperationShortCode:"NEXT"}}},t);
                 fid=fn(s2,10144);
                 
-                const s3=await mk('https://isgkatip.csgb.gov.tr/be/bsninter/conf/participant/hasRole',{body:{bsnInterPrtcptId:13283,rowId:sgkNo,dataTpId:280}},t);
-                if(s3.responseStatus!=='SUCCESS')throw new Error('İşyeri bulunamadı');
+                // Mode'a göre parametreler
+                const isDetsis = currentMode === 'detsis';
+                const dataTpId = isDetsis ? 281 : 280;
+                const bsnInterPrtcptId = isDetsis ? 13288 : 13283;
+                
+                const s3=await mk('https://isgkatip.csgb.gov.tr/be/bsninter/conf/participant/hasRole',{body:{bsnInterPrtcptId:bsnInterPrtcptId,rowId:sgkNo,dataTpId:dataTpId}},t);
+                if(s3.responseStatus!=='SUCCESS')throw new Error(isDetsis ? 'Kamu kurumu bulunamadı' : 'İşyeri bulunamadı');
                 const fr=s3.body?.rowId||sgkNo;
                 fa=s3.body?.title||'-';
                 
-                const s4=await mk('https://isgkatip.csgb.gov.tr/be/quote/updateFlowInstance',{body:{quoteKey:{businessInteractionInstanceId:id},flowInstancePage:{bsnInterFlowInscId:fid,bsnInterFlowPgId:10144,name:"Workplace Selection",descr:"Participant Page",scrOrd:2,postActnStId:1101,isAutoComp:1,isPnr:1},page:{type:"isg.katip.common.dto.bsninter.participant.BusinessInteractionPageParticipantDTO",isActv:1,isLocked:false,bsnInterPgPrtcptId:6146,name:"Workplace Selection",descr:"Participant Page",participants:[{isActv:1,bsnInterPgPrtcptItemId:6146,bsnInterPrtcptId:13283,participantDataTypeId:280,ruleSetId:1206,verNo:1,name:"Workplace",participantName:"isyeri",rowId:fr,dataTpId:280}],businessInteractionName:"CONTRACT",businessInteractionInstanceId:id,tarafBilgisi:fr+",280"},operation:{isActv:1,businessInteractionPageOperationId:26508,operationActionType:10,businessInteractionPageOperationName:"Next",businessInteractionPageOperationShortCode:"NEXT"}}},t);
+                const s4=await mk('https://isgkatip.csgb.gov.tr/be/quote/updateFlowInstance',{body:{quoteKey:{businessInteractionInstanceId:id},flowInstancePage:{bsnInterFlowInscId:fid,bsnInterFlowPgId:10144,name:"Workplace Selection",descr:"Participant Page",scrOrd:2,postActnStId:1101,isAutoComp:1,isPnr:1},page:{type:"isg.katip.common.dto.bsninter.participant.BusinessInteractionPageParticipantDTO",isActv:1,isLocked:false,bsnInterPgPrtcptId:6146,name:"Workplace Selection",descr:"Participant Page",participants:[{isActv:1,bsnInterPgPrtcptItemId:6146,bsnInterPrtcptId:bsnInterPrtcptId,participantDataTypeId:dataTpId,ruleSetId:1206,verNo:1,name:"Workplace",participantName:"isyeri",rowId:fr,dataTpId:dataTpId}],businessInteractionName:"CONTRACT",businessInteractionInstanceId:id,tarafBilgisi:fr+","+dataTpId},operation:{isActv:1,businessInteractionPageOperationId:26508,operationActionType:10,businessInteractionPageOperationName:"Next",businessInteractionPageOperationShortCode:"NEXT"}}},t);
                 fid=fn(s4,10145);
                 
                 const s5=await mk('https://isgkatip.csgb.gov.tr/be/bsninter/conf/participant/hasRole',{body:{bsnInterPrtcptId:13282,rowId:tcKimlikNo,dataTpId:300}},t);
@@ -2216,7 +2329,7 @@
                 const pr=s5.body?.rowId||tcKimlikNo;
                 pa=s5.body?.title||'-';
                 
-                const s6=await mk('https://isgkatip.csgb.gov.tr/be/quote/updateFlowInstance',{body:{quoteKey:{businessInteractionInstanceId:id},flowInstancePage:{bsnInterFlowInscId:fid,bsnInterFlowPgId:10145,name:"Personnel Selection",descr:"Participant Page",scrOrd:3,postActnStId:1101,isAutoComp:1,isPnr:1},page:{type:"isg.katip.common.dto.bsninter.participant.BusinessInteractionPageParticipantDTO",isActv:1,isLocked:false,bsnInterPgPrtcptId:6147,name:"Personnel Selection",descr:"Participant Page",participants:[{isActv:1,bsnInterPgPrtcptItemId:6147,bsnInterPrtcptId:13282,participantDataTypeId:300,ruleSetId:1205,verNo:1,name:"Personnel",participantName:"kontrolpersoneli",rowId:pr,dataTpId:300}],businessInteractionName:"CONTRACT",businessInteractionInstanceId:id,tarafBilgisi:fr+",280"},operation:{isActv:1,businessInteractionPageOperationId:26509,operationActionType:10,businessInteractionPageOperationName:"Next",businessInteractionPageOperationShortCode:"NEXT"}}},t);
+                const s6=await mk('https://isgkatip.csgb.gov.tr/be/quote/updateFlowInstance',{body:{quoteKey:{businessInteractionInstanceId:id},flowInstancePage:{bsnInterFlowInscId:fid,bsnInterFlowPgId:10145,name:"Personnel Selection",descr:"Participant Page",scrOrd:3,postActnStId:1101,isAutoComp:1,isPnr:1},page:{type:"isg.katip.common.dto.bsninter.participant.BusinessInteractionPageParticipantDTO",isActv:1,isLocked:false,bsnInterPgPrtcptId:6147,name:"Personnel Selection",descr:"Participant Page",participants:[{isActv:1,bsnInterPgPrtcptItemId:6147,bsnInterPrtcptId:13282,participantDataTypeId:300,ruleSetId:1205,verNo:1,name:"Personnel",participantName:"kontrolpersoneli",rowId:pr,dataTpId:300}],businessInteractionName:"CONTRACT",businessInteractionInstanceId:id,tarafBilgisi:fr+","+dataTpId},operation:{isActv:1,businessInteractionPageOperationId:26509,operationActionType:10,businessInteractionPageOperationName:"Next",businessInteractionPageOperationShortCode:"NEXT"}}},t);
                 fid=fn(s6,10146);
                 
                 const ct=ts();
@@ -2236,6 +2349,10 @@
         function vl(tx){
             const ls=tx.split('\n').filter(l=>l.trim()!=='');
             const r={v:[],iv:[],t:ls.length};
+            const isDetsis = currentMode === 'detsis';
+            const isyeriHane = isDetsis ? 8 : 26;
+            const isyeriLabel = isDetsis ? 'DetSis' : 'SGK';
+            
             ls.forEach((l,i)=>{
                 const ln=i+1;
                 const ps=l.split(';');
@@ -2243,7 +2360,11 @@
                 const[tur,sgk,tc,bk,kl,ts,tz,rf,mk,lp,mr,kr,er]=ps.map(p=>p.trim());
                 const es=[];
                 if(!/^\d+$/.test(tur))es.push('Tür sayı olmalı');
-                if(!/^\d{26}$/.test(sgk))es.push('SGK 26 hane');
+                
+                // Mode'a göre işyeri no validasyonu
+                const isyeriRegex = new RegExp(`^\\d{${isyeriHane}}$`);
+                if(!isyeriRegex.test(sgk))es.push(`${isyeriLabel} ${isyeriHane} hane`);
+                
                 if(!/^\d{11}$/.test(tc))es.push('TC 11 hane');
                 [bk,kl,ts,tz,rf,mk,lp,mr,kr,er].forEach((e,x)=>{if(!/^\d+$/.test(e))es.push(['BK','Kld','TS','Tzg','Rf','Mkn','LPG','Mrd','Krn','Erş'][x]+' sayı olmalı')});
                 if(es.length===0){r.v.push({l:ln,d:l,tur,sgkNo:sgk,tcKimlikNo:tc,basKap:bk,kaldirma:kl,tesisat:ts,tezgah:tz,raf:rf,makine:mk,lpg:lp,merdiven:mr,kren:kr,erisim:er})}else{r.iv.push({l:ln,d:l,e:es.join(', ')})}
