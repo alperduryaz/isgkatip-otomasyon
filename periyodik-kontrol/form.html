@@ -108,7 +108,6 @@
             min-width: 1400px;
         }
 
-        /* Tablo benzeri yapı için header */
         .table-header {
             display: flex;
             background: #e9ecef;
@@ -206,7 +205,6 @@
         .input-tc {
             width: 120px;
             position: relative;
-            /* Dropdown için */
         }
 
         .input-equip {
@@ -319,16 +317,6 @@
             transform: translateY(-1px);
         }
 
-        .btn-send {
-            background: #28a745;
-            color: white;
-        }
-
-        .btn-send:hover {
-            background: #218838;
-            transform: translateY(-1px);
-        }
-
         .output-section {
             margin-top: 30px;
             min-width: 1400px;
@@ -395,7 +383,6 @@
             border-color: #dc3545 !important;
         }
 
-        /* Personel Modal */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -650,7 +637,6 @@
             font-style: italic;
         }
 
-        /* TC Input Dropdown */
         .tc-dropdown {
             position: absolute;
             background: white;
@@ -662,9 +648,7 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             display: none;
             min-width: 300px;
-            /* Minimum genişlik */
             white-space: nowrap;
-            /* Tek satırda göster */
         }
 
         .tc-dropdown.active {
@@ -677,10 +661,8 @@
             border-bottom: 1px solid #f0f0f0;
             font-size: 13px;
             white-space: nowrap;
-            /* Tek satırda göster */
             overflow: hidden;
             text-overflow: ellipsis;
-            /* Çok uzunsa ... koy */
         }
 
         .tc-dropdown-item.tc-dropdown-gorev {
@@ -700,120 +682,6 @@
 
         .tc-dropdown-item:last-child {
             border-bottom: none;
-        }
-
-        /* Progress Bar */
-        .progress-section {
-            display: none;
-            margin: 20px 0;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border-left: 4px solid #17a2b8;
-            min-width: 1400px;
-        }
-
-        .progress-section.show {
-            display: block;
-        }
-
-        .progress-header {
-            font-size: 18px;
-            font-weight: bold;
-            color: #17a2b8;
-            margin-bottom: 15px;
-        }
-
-        .progress-bar-container {
-            width: 100%;
-            height: 30px;
-            background: #e9ecef;
-            border-radius: 15px;
-            overflow: hidden;
-            margin-bottom: 15px;
-            position: relative;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, #17a2b8, #28a745);
-            transition: width 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        .progress-messages {
-            max-height: 300px;
-            overflow-y: auto;
-            margin-bottom: 15px;
-        }
-
-        .progress-status {
-            padding: 10px;
-            background: white;
-            border-radius: 6px;
-            margin-bottom: 10px;
-            border-left: 3px solid #17a2b8;
-        }
-
-        .progress-status.success {
-            border-left-color: #28a745;
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .progress-status.error {
-            border-left-color: #dc3545;
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .progress-detail {
-            font-size: 12px;
-            color: #6c757d;
-            margin-top: 5px;
-        }
-
-        .result-summary {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .result-card {
-            padding: 15px;
-            background: white;
-            border-radius: 6px;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .result-card.success {
-            border-left: 4px solid #28a745;
-        }
-
-        .result-card.error {
-            border-left: 4px solid #dc3545;
-        }
-
-        .result-card.info {
-            border-left: 4px solid #17a2b8;
-        }
-
-        .result-card-number {
-            font-size: 32px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .result-card-label {
-            font-size: 14px;
-            color: #6c757d;
         }
     </style>
 </head>
@@ -835,14 +703,13 @@
         </div>
 
         <div class="data-table">
-            <!-- Tablo Header -->
             <div class="table-header">
                 <div class="table-cell cell-row">#</div>
                 <div class="table-cell cell-tur">Tür</div>
                 <div class="table-cell cell-sgk" id="isyeriLabel">SGK No (26)</div>
-                <div style="width: 26px;"></div> <!-- SGK fill-down butonu boşluğu -->
+                <div style="width: 26px;"></div>
                 <div class="table-cell cell-tc">TC No (11)</div>
-                <div style="width: 26px;"></div> <!-- TC fill-down butonu boşluğu -->
+                <div style="width: 26px;"></div>
                 <div class="table-cell cell-equip" title="Basınçlı Kap">BK</div>
                 <div class="table-cell cell-equip" title="Kaldırma Ekipmanı">KE</div>
                 <div class="table-cell cell-equip" title="Tesisat">TS</div>
@@ -855,13 +722,9 @@
                 <div class="table-cell cell-equip" title="Asılı Erişim">AE</div>
             </div>
 
-            <!-- Form Satırları -->
-            <div class="form-rows-container" id="formRowsContainer">
-                <!-- Satırlar buraya JavaScript ile eklenecek -->
-            </div>
+            <div class="form-rows-container" id="formRowsContainer"></div>
         </div>
 
-        <!-- Butonlar -->
         <div class="action-buttons">
             <button type="button" class="btn-submit" onclick="submitAllRows()">📋 Tümünü Ekle</button>
             <button type="button" class="btn-clear" onclick="clearAllRows()">🗑️ Formu Temizle</button>
@@ -871,32 +734,19 @@
             ✅ Veriler başarıyla eklendi!
         </div>
 
-        <!-- Progress Bar -->
-        <div class="progress-section" id="progressSection">
-            <div class="progress-header" id="progressHeader">İşlem Devam Ediyor...</div>
-            <div class="progress-bar-container">
-                <div class="progress-bar" id="progressBar" style="width: 0%">0%</div>
-            </div>
-            <div class="progress-messages" id="progressMessages"></div>
-            <div class="result-summary" id="resultSummary" style="display: none;"></div>
-        </div>
-
-        <!-- Çıktı -->
         <div class="output-section">
             <div class="output-header">
-                <h3>📤 Script İçin Veri (Kopyalayın)</h3>
+                <h3>📤 Hazırlanan Veriler</h3>
                 <span class="counter" id="counter">0 kayıt</span>
             </div>
             <textarea id="output" placeholder="Buraya eklediğiniz veriler görünecek..."></textarea>
             <div class="action-buttons">
-                <button class="btn-send" onclick="sendToISGKatip()">🚀 İSG Katip'e Gönder</button>
                 <button class="btn-copy" onclick="copyToClipboard()">📋 Tümünü Kopyala</button>
                 <button class="btn-clear" onclick="clearOutput()">🗑️ Çıktıyı Temizle</button>
             </div>
         </div>
     </div>
 
-    <!-- Personel Yönetimi Modal -->
     <div class="modal-overlay" id="personelModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -904,7 +754,6 @@
                 <button class="modal-close" onclick="closePersonelModal()">×</button>
             </div>
 
-            <!-- Personel Ekleme Formu -->
             <div class="personel-form">
                 <h3>Yeni Personel Ekle</h3>
                 <div class="form-grid">
@@ -929,14 +778,11 @@
                 </div>
             </div>
 
-            <!-- Personel Listesi -->
             <div class="personel-list">
                 <h3>Personel Listesi</h3>
                 <input type="text" class="search-box" id="personelSearch" placeholder="🔍 Ara... (TC, Ad Soyad veya Görev)">
 
-                <div id="personelTableContainer">
-                    <!-- Tablo JavaScript ile doldurulacak -->
-                </div>
+                <div id="personelTableContainer"></div>
 
                 <div class="personel-stats" id="personelStats">
                     📊 Toplam: 0 personel
@@ -945,7 +791,8 @@
                 <div class="personel-actions">
                     <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importPersonel(event)">
                     <button class="btn-export" onclick="exportPersonel()">📤 Dışa Aktar</button>
-                    <button class="btn-import" onclick="document.getElementById('importFile').click()">📥 İçe Aktar</button>
+                    <button class="btn-import" onclick="document.getElementById('importFile').click()">📥 İçe
+                        Aktar</button>
                     <button class="btn-delete-all" onclick="deleteAllPersonel()">🗑️ Tümünü Sil</button>
                 </div>
             </div>
@@ -953,27 +800,13 @@
     </div>
 
     <script>
-        // ============================================
-        // TOKEN YÖNETİMİ - Parent'tan postMessage ile al
-        // ============================================
-        let ISG_KATIP_TOKEN = null;
-
-        // Parent'tan token mesajını dinle
-        window.addEventListener('message', function (event) {
-            if (event.data && event.data.type === 'ISG_TOKEN') {
-                ISG_KATIP_TOKEN = event.data.token;
-                console.log('✅ Token alındı:', ISG_KATIP_TOKEN ? 'Var' : 'Yok');
-            }
-        });
-
         let rowCount = 0;
         let dataLines = [];
-        let editingPersonelId = null; // Düzenleme modu için
-        let currentMode = 'sgk'; // default: sgk
+        let editingPersonelId = null;
+        let currentMode = 'sgk';
 
         // ============ TOGGLE FONKSİYONELLİĞİ ============
 
-        // Toggle butonları için event listener ekle
         document.addEventListener('DOMContentLoaded', function () {
             const toggleButtons = document.querySelectorAll('.toggle-btn');
 
@@ -981,83 +814,68 @@
                 btn.addEventListener('click', function () {
                     const newMode = this.getAttribute('data-mode');
 
-                    if (newMode === currentMode) return; // Zaten aktif
+                    if (newMode === currentMode) return;
 
-                    // Değişiklik yapılmadan önce uyar
                     if (dataLines.length > 0) {
                         if (!confirm('⚠️ Mod değiştirdiğinizde mevcut veriler temizlenecek!\n\nDevam etmek istiyor musunuz?')) {
                             return;
                         }
                     }
 
-                    // Toggle aktif/pasif
                     toggleButtons.forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
 
-                    // Modu değiştir
                     currentMode = newMode;
                     updateUIForMode(newMode);
-
-                    // Formu temizle
                     clearAllRows();
                 });
             });
         });
 
-        // UI'yi moda göre güncelle
         function updateUIForMode(mode) {
             const isyeriLabel = document.getElementById('isyeriLabel');
             const isDetsis = mode === 'detsis';
             const isyeriHane = isDetsis ? 8 : 26;
             const isyeriPlaceholder = isDetsis ? '8 haneli DetSis No' : '26 haneli SGK No';
 
-            // Header label'ı güncelle
             if (mode === 'sgk') {
                 isyeriLabel.textContent = 'SGK No (26)';
             } else {
                 isyeriLabel.textContent = 'DetSis No (8)';
             }
 
-            // MEVCUT tüm satırlardaki inputları güncelle
             document.querySelectorAll('.sgk-input').forEach(input => {
                 input.placeholder = isyeriPlaceholder;
                 input.maxLength = isyeriHane;
-                // Mevcut değeri temizle (hane sayısı değişti)
                 input.value = '';
             });
         }
 
         // ============ PERSONEL YÖNETİMİ ============
 
-        // LocalStorage'dan personelleri al
         function getPersoneller() {
             const data = localStorage.getItem('isgPersoneller');
             return data ? JSON.parse(data) : [];
         }
 
-        // LocalStorage'a personelleri kaydet
         function savePersoneller(personeller) {
             localStorage.setItem('isgPersoneller', JSON.stringify(personeller));
         }
 
-        // Modal aç
         function openPersonelModal() {
             document.getElementById('personelModal').classList.add('active');
             loadPersonelList();
 
-            // İlk input'a focus
             setTimeout(() => {
                 document.getElementById('personelTc').focus();
             }, 100);
         }
 
-        // Modal kapat
         function closePersonelModal() {
             document.getElementById('personelModal').classList.remove('active');
             clearPersonelForm();
         }
 
-        // Formu temizle
         function clearPersonelForm() {
             document.getElementById('personelTc').value = '';
             document.getElementById('personelAd').value = '';
@@ -1066,13 +884,11 @@
             document.getElementById('personelSubmitBtn').textContent = '➕ Ekle';
         }
 
-        // Personel kaydet/güncelle
         function savePersonel() {
             const tc = document.getElementById('personelTc').value.trim();
             const ad = document.getElementById('personelAd').value.trim();
             const gorev = document.getElementById('personelGorev').value;
 
-            // Validasyon
             if (!tc || tc.length !== 11 || !/^\d{11}$/.test(tc)) {
                 alert('⚠️ TC No 11 haneli sayı olmalıdır!');
                 document.getElementById('personelTc').focus();
@@ -1088,7 +904,6 @@
             const personeller = getPersoneller();
 
             if (editingPersonelId) {
-                // Güncelleme
                 const index = personeller.findIndex(p => p.id === editingPersonelId);
                 if (index !== -1) {
                     personeller[index] = {
@@ -1099,7 +914,6 @@
                     };
                 }
             } else {
-                // Yeni ekleme - TC kontrolü
                 if (personeller.some(p => p.tc === tc)) {
                     alert('⚠️ Bu TC No zaten kayıtlı!');
                     return;
@@ -1117,28 +931,20 @@
             loadPersonelList();
             clearPersonelForm();
 
-            // Başarı mesajı
             const msg = editingPersonelId ? 'güncellendi' : 'eklendi';
             alert(`✅ ${ad} ${msg}!`);
         }
 
-        // Personel listesini yükle
         function loadPersonelList() {
             const personeller = getPersoneller();
             const searchInput = document.getElementById('personelSearch');
             const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
 
-            console.log('Personel listesi yükleniyor, toplam:', personeller.length);
-            console.log('Arama terimi:', searchTerm);
-
-            // Filtrele
             const filtered = personeller.filter(p =>
                 p.tc.includes(searchTerm) ||
                 p.adSoyad.toLowerCase().includes(searchTerm) ||
                 p.gorev.toLowerCase().includes(searchTerm)
             );
-
-            console.log('Filtrelenmiş:', filtered.length);
 
             const container = document.getElementById('personelTableContainer');
 
@@ -1176,11 +982,9 @@
                 container.innerHTML = html;
             }
 
-            // İstatistik
             document.getElementById('personelStats').textContent = `📊 Toplam: ${personeller.length} personel`;
         }
 
-        // Personel düzenle
         function editPersonel(id) {
             const personeller = getPersoneller();
             const personel = personeller.find(p => p.id === id);
@@ -1192,13 +996,11 @@
                 editingPersonelId = id;
                 document.getElementById('personelSubmitBtn').textContent = '💾 Güncelle';
 
-                // Scroll to top
                 document.querySelector('.modal-content').scrollTop = 0;
                 document.getElementById('personelTc').focus();
             }
         }
 
-        // Personel sil
         function deletePersonel(id, adSoyad) {
             if (!confirm(`"${adSoyad}" silinsin mi?`)) {
                 return;
@@ -1212,7 +1014,6 @@
             alert(`✅ ${adSoyad} silindi!`);
         }
 
-        // Tümünü sil
         function deleteAllPersonel() {
             const personeller = getPersoneller();
 
@@ -1230,7 +1031,6 @@
             alert('✅ Tüm personeller silindi!');
         }
 
-        // Export (Dışa Aktar)
         function exportPersonel() {
             const personeller = getPersoneller();
 
@@ -1260,7 +1060,6 @@
             alert(`✅ ${personeller.length} personel dışa aktarıldı!`);
         }
 
-        // Import (İçe Aktar)
         function importPersonel(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -1270,7 +1069,6 @@
                 try {
                     const data = JSON.parse(e.target.result);
 
-                    // Format kontrolü
                     if (!data.personeller || !Array.isArray(data.personeller)) {
                         alert('⚠️ Geçersiz dosya formatı!');
                         return;
@@ -1279,7 +1077,6 @@
                     const mevcut = getPersoneller();
                     const yeniPersoneller = data.personeller;
 
-                    // Seçenek sun
                     let mode = 'ekle';
                     if (mevcut.length > 0) {
                         const choice = confirm(
@@ -1292,7 +1089,6 @@
 
                     let finalPersoneller;
                     if (mode === 'ekle') {
-                        // TC kontrolü yaparak ekle
                         const mevcutTCler = new Set(mevcut.map(p => p.tc));
                         const yeniEklenecekler = yeniPersoneller.filter(p => !mevcutTCler.has(p.tc));
                         finalPersoneller = [...mevcut, ...yeniEklenecekler];
@@ -1310,21 +1106,18 @@
                     alert('⚠️ Dosya okunamadı: ' + error.message);
                 }
 
-                // Input'u temizle (aynı dosya tekrar seçilebilsin)
                 event.target.value = '';
             };
 
             reader.readAsText(file);
         }
 
-        // Arama
         document.addEventListener('DOMContentLoaded', function () {
             const searchInput = document.getElementById('personelSearch');
             if (searchInput) {
                 searchInput.addEventListener('input', loadPersonelList);
             }
 
-            // TC input validasyonu
             const tcInput = document.getElementById('personelTc');
             if (tcInput) {
                 tcInput.addEventListener('input', function (e) {
@@ -1335,11 +1128,9 @@
 
         // ============ ANA FORM ============
 
-        // Sayfa yüklendiğinde 10 satır ekle
         window.addEventListener('DOMContentLoaded', function () {
             addRows(10);
 
-            // İlk satırın SGK inputuna focus
             setTimeout(() => {
                 const firstSgkInput = document.getElementById('sgkNo_1');
                 if (firstSgkInput) {
@@ -1348,7 +1139,6 @@
             }, 100);
         });
 
-        // Satır HTML'i oluştur
         function createRowHTML(rowNumber) {
             const isDetsis = currentMode === 'detsis';
             const isyeriMaxLength = isDetsis ? 8 : 26;
@@ -1363,12 +1153,12 @@
                     <div class="form-group input-sgk">
                         <input type="text" id="sgkNo_${rowNumber}" placeholder="${isyeriPlaceholder}" maxlength="${isyeriMaxLength}" class="sgk-input">
                     </div>
-                    <button type="button" class="fill-down-btn" onclick="fillDown('sgkNo', ${rowNumber})" tabindex="-1" title="Aşağı kopyala (Ctrl+D)">▼</button>
+                    <button type="button" class="fill-down-btn" onclick="fillDown('sgkNo', ${rowNumber})" tabindex="-1" title="Aşağı kopyala">▼</button>
                     <div class="form-group input-tc" style="position: relative;">
                         <input type="text" id="tcNo_${rowNumber}" placeholder="11 haneli" maxlength="11" class="tc-input" data-row="${rowNumber}">
                         <div class="tc-dropdown" id="tcDropdown_${rowNumber}"></div>
                     </div>
-                    <button type="button" class="fill-down-btn" onclick="fillDown('tcNo', ${rowNumber})" tabindex="-1" title="Aşağı kopyala (Ctrl+D)">▼</button>
+                    <button type="button" class="fill-down-btn" onclick="fillDown('tcNo', ${rowNumber})" tabindex="-1" title="Aşağı kopyala">▼</button>
                     <div class="form-group input-equip">
                         <input type="number" id="basKap_${rowNumber}" value="0" min="0" max="9999" class="equip-input">
                     </div>
@@ -1404,7 +1194,6 @@
             `;
         }
 
-        // Satır ekle
         function addRows(count) {
             const container = document.getElementById('formRowsContainer');
 
@@ -1413,17 +1202,14 @@
                 container.insertAdjacentHTML('beforeend', createRowHTML(rowCount));
             }
 
-            // SGK ve TC input'larına otomatik temizleme ekle
             setupInputValidation();
         }
 
-        // Input validasyon
         function setupInputValidation() {
             document.querySelectorAll('.sgk-input').forEach(input => {
                 input.removeEventListener('input', sgkInputHandler);
                 input.addEventListener('input', sgkInputHandler);
 
-                // Paste event - toplu SGK ekleme
                 input.removeEventListener('paste', sgkPasteHandler);
                 input.addEventListener('paste', sgkPasteHandler);
             });
@@ -1432,7 +1218,6 @@
                 input.removeEventListener('input', tcInputHandler);
                 input.addEventListener('input', tcInputHandler);
 
-                // TC dropdown setup
                 input.removeEventListener('focus', tcFocusHandler);
                 input.addEventListener('focus', tcFocusHandler);
 
@@ -1450,11 +1235,9 @@
                 input.addEventListener('keydown', equipKeydownHandler);
             });
 
-            // Tüm inputlara Enter tuşu navigasyonu ekle
             setupEnterKeyNavigation();
         }
 
-        // TC Dropdown Handlers
         let selectedDropdownIndex = -1;
 
         function tcFocusHandler(e) {
@@ -1462,10 +1245,8 @@
         }
 
         function tcBlurHandler(e) {
-            // Önce temizle
             cleanupTcInput(e.target);
 
-            // Dropdown'a tıklamaya izin ver
             setTimeout(() => {
                 const rowNum = e.target.dataset.row;
                 const dropdown = document.getElementById(`tcDropdown_${rowNum}`);
@@ -1519,30 +1300,21 @@
             const rowNum = input.dataset.row;
             const dropdown = document.getElementById(`tcDropdown_${rowNum}`);
 
-            if (!dropdown) {
-                console.error('Dropdown bulunamadı:', `tcDropdown_${rowNum}`);
-                return;
-            }
+            if (!dropdown) return;
 
             const personeller = getPersoneller();
             const searchTerm = input.value.toLowerCase();
-
-            console.log('Personel sayısı:', personeller.length);
-            console.log('Arama terimi:', searchTerm);
 
             if (personeller.length === 0) {
                 dropdown.classList.remove('active');
                 return;
             }
 
-            // Görev bazlı say
             const mekanikCount = personeller.filter(p => p.gorev === 'Mekanik').length;
             const elektrikCount = personeller.filter(p => p.gorev === 'Elektrik').length;
 
-            // Dropdown'u doldur
             dropdown.innerHTML = '';
 
-            // Görev seçenekleri (sadece personeli olanlar)
             if (mekanikCount > 0 && 'mekanik'.includes(searchTerm)) {
                 const item = document.createElement('div');
                 item.className = 'tc-dropdown-item tc-dropdown-gorev';
@@ -1559,21 +1331,17 @@
                 dropdown.appendChild(item);
             }
 
-            // Ayırıcı (eğer görevler varsa)
             if ((mekanikCount > 0 || elektrikCount > 0) && personeller.length > 0) {
                 const divider = document.createElement('div');
                 divider.style.cssText = 'border-top: 2px solid #dee2e6; margin: 5px 0;';
                 dropdown.appendChild(divider);
             }
 
-            // Personel listesi (filtreli)
             const filtered = personeller.filter(p =>
                 p.tc.includes(searchTerm) ||
                 p.adSoyad.toLowerCase().includes(searchTerm) ||
                 p.gorev.toLowerCase().includes(searchTerm)
             );
-
-            console.log('Filtrelenmiş:', filtered.length);
 
             filtered.forEach((p, index) => {
                 const item = document.createElement('div');
@@ -1583,17 +1351,14 @@
                 dropdown.appendChild(item);
             });
 
-            // Hiç öğe yoksa kapat
             if (dropdown.children.length === 0) {
                 dropdown.classList.remove('active');
                 return;
             }
 
-            // Input'un altına konumlandır
             dropdown.style.top = (input.offsetHeight + 2) + 'px';
             dropdown.style.left = '0';
 
-            console.log('Dropdown aktif ediliyor...');
             dropdown.classList.add('active');
             selectedDropdownIndex = -1;
         }
@@ -1601,42 +1366,34 @@
         function selectPersonel(rowNum, personel) {
             const input = document.getElementById(`tcNo_${rowNum}`);
             input.value = personel.tc;
-            input.dataset.type = 'personel'; // Tek kişi
+            input.dataset.type = 'personel';
             input.dataset.personelId = personel.id;
-            input.dataset.gorev = personel.gorev; // Görevi de sakla
+            input.dataset.gorev = personel.gorev;
 
             const dropdown = document.getElementById(`tcDropdown_${rowNum}`);
             dropdown.classList.remove('active');
 
-            // Ekipman inputlarını görev bazlı etkinleştir/pasifleştir
             toggleEquipmentInputs(rowNum, personel.gorev);
-
-            // Bir sonraki inputa geç
             focusNextInput(input);
         }
 
         function selectGorev(rowNum, gorev) {
             const input = document.getElementById(`tcNo_${rowNum}`);
             input.value = gorev;
-            input.dataset.type = 'gorev'; // Toplu - görev bazlı
+            input.dataset.type = 'gorev';
             input.dataset.gorev = gorev;
 
             const dropdown = document.getElementById(`tcDropdown_${rowNum}`);
             dropdown.classList.remove('active');
 
-            // Ekipman inputlarını görev bazlı etkinleştir/pasifleştir
             toggleEquipmentInputs(rowNum, gorev);
-
-            // Bir sonraki inputa geç
             focusNextInput(input);
         }
 
-        // Ekipman inputlarını görev bazlı aktif/pasif yap
         function toggleEquipmentInputs(rowNum, gorev) {
             const equipFields = ['basKap', 'kaldirma', 'tesisat', 'tezgah', 'raf', 'makine', 'lpg', 'merdiven', 'kren', 'erisim'];
 
             if (gorev === 'Elektrik') {
-                // Elektrik: Sadece Tesisat aktif
                 equipFields.forEach(field => {
                     const input = document.getElementById(`${field}_${rowNum}`);
                     if (input) {
@@ -1652,7 +1409,6 @@
                     }
                 });
             } else {
-                // Mekanik veya diğer: Tümü aktif
                 equipFields.forEach(field => {
                     const input = document.getElementById(`${field}_${rowNum}`);
                     if (input) {
@@ -1664,9 +1420,7 @@
             }
         }
 
-        // TC input blur'da rakam kontrolü
         function cleanupTcInput(input) {
-            // Sadece rakam bırak
             const cleaned = input.value.replace(/\D/g, '').slice(0, 11);
             if (input.value !== cleaned) {
                 input.value = cleaned;
@@ -1679,90 +1433,71 @@
 
             e.target.value = e.target.value.replace(/\D/g, '').slice(0, maxLength);
 
-            // Maksimum hane doldu mu? Otomatik geçiş
             if (e.target.value.length === maxLength) {
                 setTimeout(() => focusNextInput(e.target), 0);
             }
         }
 
-        // SGK Paste Handler - Toplu Ekleme
         function sgkPasteHandler(e) {
             const pastedText = e.clipboardData.getData('text');
             const isDetsis = currentMode === 'detsis';
             const maxLength = isDetsis ? 8 : 26;
             const fieldLabel = isDetsis ? 'DetSis No' : 'SGK No';
 
-            // Çok satırlı mı kontrol et
             if (!pastedText.includes('\n') && !pastedText.includes('\r')) {
-                // Tek satır - normal paste
                 return;
             }
 
-            // Çok satırlı! Default paste'i engelle
             e.preventDefault();
 
-            // Satırlara böl ve temizle
             const lines = pastedText
                 .split(/[\r\n]+/)
                 .map(line => line.trim().replace(/\D/g, '').slice(0, maxLength))
-                .filter(line => line.length === maxLength); // Sadece doğru haneli olanlar
+                .filter(line => line.length === maxLength);
 
             if (lines.length === 0) {
                 alert(`⚠️ Geçerli ${fieldLabel} bulunamadı! (${maxLength} haneli sayı olmalı)`);
                 return;
             }
 
-            // Başlangıç satırı
             const currentInput = e.target;
             const startRowNum = parseInt(currentInput.id.replace('sgkNo_', ''));
-
-            console.log(`${lines.length} ${fieldLabel} yapıştırılıyor, başlangıç satırı: ${startRowNum}`);
 
             let currentRowNum = startRowNum;
             let insertedCount = 0;
             let skippedCount = 0;
 
             lines.forEach((sgkNo, index) => {
-                // Mevcut satır var mı?
                 let targetInput = document.getElementById(`sgkNo_${currentRowNum}`);
 
                 if (!targetInput) {
-                    // Satır yok, yeni satır ekle
                     addRows(1);
                     targetInput = document.getElementById(`sgkNo_${currentRowNum}`);
                 }
 
-                // Satır dolu mu?
                 const existingValue = targetInput.value.trim();
 
                 if (existingValue && existingValue.length > 0) {
-                    // Satır dolu - araya ekle
-                    console.log(`Satır ${currentRowNum} dolu, araya ekleniyor...`);
                     insertRowAfter(currentRowNum - 1);
                     targetInput = document.getElementById(`sgkNo_${currentRowNum}`);
                 }
 
-                // SGK'yı doldur
                 if (targetInput) {
                     targetInput.value = sgkNo;
                     insertedCount++;
-                    console.log(`Satır ${currentRowNum}: ${sgkNo}`);
                 } else {
                     skippedCount++;
-                    console.error(`Satır ${currentRowNum} bulunamadı!`);
                 }
 
                 currentRowNum++;
             });
 
-            // Sonuç mesajı
-            let message = `✅ ${insertedCount} SGK No eklendi!`;
+            let message = `✅ ${insertedCount} ${fieldLabel} eklendi!`;
             if (skippedCount > 0) {
                 message += `\n⚠️ ${skippedCount} satır atlandı.`;
             }
             alert(message);
 
-            // İlk eklenen satıra focus
             const firstInput = document.getElementById(`sgkNo_${startRowNum}`);
             if (firstInput) {
                 firstInput.focus();
@@ -1774,18 +1509,15 @@
             const input = e.target;
             const rowNum = input.dataset.row;
 
-            // Maksimum 50 karakter (arama için)
             if (input.value.length > 50) {
                 input.value = input.value.slice(0, 50);
             }
 
-            // Dropdown'u göster
             const hasPersonel = getPersoneller().length > 0;
             if (hasPersonel) {
                 showTcDropdown(input);
             }
 
-            // Sadece rakam varsa ve 11 hane doluysa otomatik geçiş
             const onlyDigits = /^\d+$/.test(input.value);
             if (onlyDigits && input.value.length === 11) {
                 setTimeout(() => focusNextInput(input), 0);
@@ -1804,17 +1536,14 @@
             }
         }
 
-        // Ekipman inputları için Enter tuşu
         function equipKeydownHandler(e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
 
-                // En son satırın en son inputu mu?
                 const allInputs = Array.from(document.querySelectorAll('input:not([readonly])'));
                 const currentIndex = allInputs.indexOf(e.target);
 
                 if (currentIndex === allInputs.length - 1) {
-                    // Son input - Tümünü Ekle butonunu aktif et
                     document.querySelector('.btn-submit').focus();
                 } else {
                     focusNextInput(e.target);
@@ -1822,12 +1551,10 @@
             }
         }
 
-        // Enter tuşu ile navigasyon
         function setupEnterKeyNavigation() {
             const allInputs = document.querySelectorAll('input:not([readonly])');
 
             allInputs.forEach((input, index) => {
-                // Ekipman inputları için ayrı handler var
                 if (input.classList.contains('equip-input')) return;
 
                 input.addEventListener('keydown', function (e) {
@@ -1839,7 +1566,6 @@
             });
         }
 
-        // Bir sonraki inputa geç
         function focusNextInput(currentInput) {
             const allInputs = Array.from(document.querySelectorAll('input:not([readonly])'));
             const currentIndex = allInputs.indexOf(currentInput);
@@ -1850,7 +1576,6 @@
             }
         }
 
-        // Fill Down (Ctrl+D) - Excel tarzı aşağı kopyalama
         function fillDown(fieldPrefix, currentRow) {
             const currentInput = document.getElementById(`${fieldPrefix}_${currentRow}`);
             const value = currentInput.value.trim();
@@ -1860,15 +1585,12 @@
                 return;
             }
 
-            // Bir sonraki satır var mı kontrol et
             const nextRow = currentRow + 1;
             const nextInput = document.getElementById(`${fieldPrefix}_${nextRow}`);
 
             if (!nextInput) {
-                // Sonraki satır yok - yeni satır ekle
                 addRows(1);
 
-                // Yeni eklenen satıra kopyala
                 setTimeout(() => {
                     const newInput = document.getElementById(`${fieldPrefix}_${nextRow}`);
                     if (newInput) {
@@ -1880,15 +1602,12 @@
                 return;
             }
 
-            // Sonraki satır var
             const nextValue = nextInput.value.trim();
 
             if (nextValue) {
-                // Alt satır dolu - araya satır ekle
                 if (confirm(`Satır ${nextRow} dolu. Araya yeni satır eklensin mi?`)) {
                     insertRowAfter(currentRow);
 
-                    // Yeni eklenen satıra kopyala
                     setTimeout(() => {
                         const newInput = document.getElementById(`${fieldPrefix}_${nextRow}`);
                         if (newInput) {
@@ -1899,16 +1618,13 @@
                     }, 50);
                 }
             } else {
-                // Alt satır boş - direkt kopyala
                 nextInput.value = value;
                 nextInput.focus();
                 nextInput.select();
             }
         }
 
-        // Ekipman Sayılarını Aşağı Kopyala (Tüm ekipman inputları)
         function fillDownEquipment(currentRow) {
-            // Mevcut satırdaki tüm ekipman değerlerini al
             const equipFields = ['basKap', 'kaldirma', 'tesisat', 'tezgah', 'raf', 'makine', 'lpg', 'merdiven', 'kren', 'erisim'];
             const values = {};
 
@@ -1917,15 +1633,12 @@
                 values[field] = input ? input.value : '0';
             });
 
-            // Bir sonraki satır var mı kontrol et
             const nextRow = currentRow + 1;
             const nextRowExists = document.getElementById(`basKap_${nextRow}`);
 
             if (!nextRowExists) {
-                // Sonraki satır yok - yeni satır ekle
                 addRows(1);
 
-                // Yeni eklenen satıra kopyala
                 setTimeout(() => {
                     equipFields.forEach(field => {
                         const newInput = document.getElementById(`${field}_${nextRow}`);
@@ -1937,21 +1650,17 @@
                 return;
             }
 
-            // Sonraki satır var - ekipman inputlarından herhangi biri dolu mu kontrol et
             const nextRowHasData = equipFields.some(field => {
                 const input = document.getElementById(`${field}_${nextRow}`);
                 return input && input.value.trim() !== '' && input.value !== '0';
             });
 
             if (nextRowHasData) {
-                // Alt satırda ekipman verisi var - kullanıcıya sor
                 const choice = confirm(`Satır ${nextRow}'da ekipman verisi var.\n\nTAMAM: Araya yeni satır ekle\nİPTAL: Üzerine yaz`);
 
                 if (choice) {
-                    // TAMAM - Araya satır ekle
                     insertRowAfter(currentRow);
 
-                    // Yeni eklenen satıra kopyala
                     setTimeout(() => {
                         equipFields.forEach(field => {
                             const newInput = document.getElementById(`${field}_${nextRow}`);
@@ -1961,7 +1670,6 @@
                         });
                     }, 50);
                 } else {
-                    // İPTAL - Üzerine yaz
                     equipFields.forEach(field => {
                         const nextInput = document.getElementById(`${field}_${nextRow}`);
                         if (nextInput) {
@@ -1970,7 +1678,6 @@
                     });
                 }
             } else {
-                // Alt satır boş - direkt kopyala
                 equipFields.forEach(field => {
                     const nextInput = document.getElementById(`${field}_${nextRow}`);
                     if (nextInput) {
@@ -1980,33 +1687,26 @@
             }
         }
 
-        // Satırdan sonra yeni satır ekle
         function insertRowAfter(afterRow) {
             const container = document.getElementById('formRowsContainer');
             const rows = container.querySelectorAll('.form-row');
 
-            // Yeni satır numarası
             rowCount++;
             const newRowNumber = afterRow + 1;
 
-            // Yeni satır HTML'i oluştur
             const newRowHTML = createRowHTML(newRowNumber);
 
-            // Mevcut satırdan sonraki tüm satırları yeniden numaralandır
             for (let i = rows.length - 1; i >= afterRow; i--) {
                 const row = rows[i];
                 const oldRowNum = parseInt(row.dataset.row);
                 const newRowNum = oldRowNum + 1;
 
-                // Satır numarasını güncelle
                 row.dataset.row = newRowNum;
                 row.querySelector('.row-number').textContent = newRowNum;
 
-                // Tüm inputların ID'lerini güncelle
                 updateRowInputIds(row, oldRowNum, newRowNum);
             }
 
-            // Yeni satırı ekle
             if (afterRow === 0) {
                 container.insertAdjacentHTML('afterbegin', newRowHTML);
             } else {
@@ -2014,11 +1714,9 @@
                 afterRowElement.insertAdjacentHTML('afterend', newRowHTML);
             }
 
-            // Validasyon kurulumunu yenile
             setupInputValidation();
         }
 
-        // Satırdaki tüm input ID'lerini güncelle
         function updateRowInputIds(row, oldNum, newNum) {
             const inputs = row.querySelectorAll('input');
 
@@ -2028,7 +1726,6 @@
                 input.id = newId;
             });
 
-            // Butonların onclick'lerini güncelle
             const buttons = row.querySelectorAll('.fill-down-btn');
             buttons.forEach(btn => {
                 const onclick = btn.getAttribute('onclick');
@@ -2037,20 +1734,17 @@
             });
         }
 
-        // Tek satırdan veri al (görev veya tek kişi)
         function getRowData(rowNumber) {
             const surecId = document.getElementById(`surecId_${rowNumber}`).value.trim() || '322';
             const sgkNo = document.getElementById(`sgkNo_${rowNumber}`).value.trim();
             const tcInput = document.getElementById(`tcNo_${rowNumber}`);
             const tcValue = tcInput.value.trim();
-            const dataType = tcInput.dataset.type; // 'personel' veya 'gorev'
+            const dataType = tcInput.dataset.type;
 
-            // Boş satırları atla
             if (!sgkNo && !tcValue) {
                 return null;
             }
 
-            // İşyeri no validasyonu (mode'a göre)
             const isDetsis = currentMode === 'detsis';
             const isyeriHane = isDetsis ? 8 : 26;
             const isyeriLabel = isDetsis ? 'DetSis No' : 'SGK No';
@@ -2060,14 +1754,11 @@
                 return { error: `Satır ${rowNumber}: ${isyeriLabel} ${isyeriHane} haneli sayı olmalı` };
             }
 
-            // Ekipman sayıları
-            const tcGorev = tcInput.dataset.gorev; // Seçilen görev
+            const tcGorev = tcInput.dataset.gorev;
 
-            // Elektrik personeli için sadece Tesisat
             let basKap, kaldirma, tesisat, tezgah, raf, makine, lpg, merdiven, kren, erisim;
 
             if (tcGorev === 'Elektrik' || (dataType === 'gorev' && tcInput.dataset.gorev === 'Elektrik')) {
-                // Elektrik: Sadece Tesisat
                 basKap = '0';
                 kaldirma = '0';
                 tesisat = document.getElementById(`tesisat_${rowNumber}`).value || '0';
@@ -2079,13 +1770,10 @@
                 kren = '0';
                 erisim = '0';
 
-                // BOŞ SATIR KONTROLÜ - ELEKTRİK
-                // Elektrik: Sadece Tesisat var, o da 0 ise atla
                 if (parseInt(tesisat) === 0) {
-                    return null; // Boş satır olarak değerlendir
+                    return null;
                 }
             } else {
-                // Mekanik veya diğer: Tümü
                 basKap = document.getElementById(`basKap_${rowNumber}`).value || '0';
                 kaldirma = document.getElementById(`kaldirma_${rowNumber}`).value || '0';
                 tesisat = document.getElementById(`tesisat_${rowNumber}`).value || '0';
@@ -2097,18 +1785,15 @@
                 kren = document.getElementById(`kren_${rowNumber}`).value || '0';
                 erisim = document.getElementById(`erisim_${rowNumber}`).value || '0';
 
-                // BOŞ SATIR KONTROLÜ - MEKANİK
-                // TÜM ekipman kolonları (Akreditasyon dahil) toplamı 0 ise atla
                 const mekanikTotal = parseInt(basKap) + parseInt(kaldirma) + parseInt(tesisat) +
                     parseInt(tezgah) + parseInt(raf) + parseInt(makine) +
                     parseInt(lpg) + parseInt(merdiven) + parseInt(kren) + parseInt(erisim);
 
                 if (mekanikTotal === 0) {
-                    return null; // Boş satır olarak değerlendir
+                    return null;
                 }
             }
 
-            // Görev seçilmişse - çoğalt
             if (dataType === 'gorev') {
                 const gorev = tcInput.dataset.gorev;
                 const personeller = getPersoneller().filter(p => p.gorev === gorev);
@@ -2117,7 +1802,6 @@
                     return { error: `Satır ${rowNumber}: ${gorev} personeli yok, atlandı`, warning: true };
                 }
 
-                // Her personel için kayıt oluştur
                 const records = personeller.map(p =>
                     `${surecId};${sgkNo};${p.tc};${basKap};${kaldirma};${tesisat};${tezgah};${raf};${makine};${lpg};${merdiven};${kren};${erisim}`
                 );
@@ -2125,7 +1809,6 @@
                 return { type: 'gorev', gorev: gorev, count: personeller.length, records: records };
             }
 
-            // Tek kişi seçilmişse - TC validasyonu
             if (tcValue.length !== 11 || !/^\d{11}$/.test(tcValue)) {
                 return { error: `Satır ${rowNumber}: TC No 11 haneli sayı olmalı` };
             }
@@ -2133,19 +1816,17 @@
             return `${surecId};${sgkNo};${tcValue};${basKap};${kaldirma};${tesisat};${tezgah};${raf};${makine};${lpg};${merdiven};${kren};${erisim}`;
         }
 
-        // Tüm satırları işle
         function submitAllRows() {
             const errors = [];
             const warnings = [];
             const newLines = [];
             const skippedRows = [];
-            let gorevExpanded = 0; // Görev seçimiyle eklenen kayıt sayısı
+            let gorevExpanded = 0;
 
             for (let i = 1; i <= rowCount; i++) {
                 const rowData = getRowData(i);
 
                 if (rowData === null) {
-                    // Boş satır, atla
                     continue;
                 }
 
@@ -2157,31 +1838,26 @@
                     }
                     skippedRows.push(i);
                 } else if (rowData.type === 'gorev') {
-                    // Görev seçimi - çoğaltılmış kayıtlar
                     gorevExpanded += rowData.count;
                     newLines.push(...rowData.records);
                 } else {
-                    // Tek kayıt
                     newLines.push(rowData);
                 }
             }
 
-            // Hiç veri yok mu?
             if (newLines.length === 0 && errors.length === 0) {
                 alert('⚠️ Hiç veri girilmemiş!');
                 return;
             }
 
-            // Sadece hata var, geçerli veri yok
             if (newLines.length === 0 && errors.length > 0) {
                 alert('⚠️ Hiç geçerli satır yok!\n\n' + errors.join('\n'));
                 return;
             }
 
-            // Mükerrerlik kontrolü (SGK + TC unique olmalı)
             const existingKeys = new Set(dataLines.map(line => {
                 const parts = line.split(';');
-                return `${parts[1]}_${parts[2]}`; // SGK_TC
+                return `${parts[1]}_${parts[2]}`;
             }));
 
             const uniqueNewLines = [];
@@ -2189,7 +1865,7 @@
 
             newLines.forEach(line => {
                 const parts = line.split(';');
-                const key = `${parts[1]}_${parts[2]}`; // SGK_TC
+                const key = `${parts[1]}_${parts[2]}`;
 
                 if (existingKeys.has(key)) {
                     duplicates.push(`${parts[1]} - ${parts[2]}`);
@@ -2199,17 +1875,14 @@
                 }
             });
 
-            // Hiç unique kayıt kalmadıysa
             if (uniqueNewLines.length === 0) {
                 alert('⚠️ Tüm kayıtlar mükerrer! (SGK+TC aynı)\n\nÇıktıda zaten mevcut.');
                 return;
             }
 
-            // Verileri ekle
             dataLines = dataLines.concat(uniqueNewLines);
             updateOutput();
 
-            // Sonuç mesajı
             let message = `✅ ${uniqueNewLines.length} kayıt eklendi!`;
 
             if (gorevExpanded > 0) {
@@ -2228,33 +1901,26 @@
                 message += `\n\n❌ Hatalar:\n` + errors.join('\n');
             }
 
-            // Başarı mesajı
             const successMsg = document.getElementById('successMessage');
             successMsg.textContent = `✅ ${uniqueNewLines.length} kayıt eklendi!`;
             successMsg.style.display = 'block';
             setTimeout(() => successMsg.style.display = 'none', 2000);
 
-            // Detaylı göster
             if (gorevExpanded > 0 || duplicates.length > 0 || warnings.length > 0 || errors.length > 0) {
                 setTimeout(() => alert(message), 100);
             }
-
-            // Form TEMİZLENMEZ - Kullanıcı düzeltip tekrar ekleyebilir
         }
 
-        // Tüm satırları temizle
         function clearAllRows() {
             document.getElementById('formRowsContainer').innerHTML = '';
             rowCount = 0;
         }
 
-        // Çıktıyı güncelle
         function updateOutput() {
             document.getElementById('output').value = dataLines.join('\n');
             document.getElementById('counter').textContent = dataLines.length + ' kayıt';
         }
 
-        // Çıktıyı temizle
         function clearOutput() {
             if (dataLines.length === 0) return;
 
@@ -2264,7 +1930,6 @@
             }
         }
 
-        // Kopyala
         function copyToClipboard() {
             const output = document.getElementById('output');
 
@@ -2285,223 +1950,6 @@
                 btn.textContent = originalText;
                 btn.style.background = '#17a2b8';
             }, 2000);
-        }
-
-        // Katibe Gönder
-        function sendToKatip() {
-            if (dataLines.length === 0) {
-                alert('⚠️ Gönderilecek veri yok!');
-                return;
-            }
-
-            // LocalStorage'a kaydet
-            const data = dataLines.join('\n');
-            localStorage.setItem('isgKatipPeriyodikKontrolData', data);
-
-            const btn = event.target;
-            const originalText = btn.textContent;
-            btn.textContent = `✅ ${dataLines.length} kayıt gönderildi!`;
-            btn.style.background = '#28a745';
-
-            setTimeout(() => {
-                btn.textContent = originalText;
-                btn.style.background = '#28a745';
-            }, 2000);
-
-            alert(`✅ ${dataLines.length} kayıt tarayıcıya kaydedildi!\n\nŞimdi İSG Katip'te bookmarklet'i çalıştırabilirsiniz.`);
-        }
-
-        // ============================================
-        // İSG KATİP API FONKSİYONLARI
-        // ============================================
-
-        function mk(u, d, t) { return fetch(u, { method: 'POST', headers: { 'Accept': '*/*', 'Content-Type': 'application/json', 'token': t, 'Origin': 'https://isgkatip.csgb.gov.tr', 'Referer': 'https://isgkatip.csgb.gov.tr/surec/hizmet-sozlesme-surec' }, body: JSON.stringify(d) }).then(r => r.json()) }
-        function ts() { return new Date().toISOString().slice(0, -1) }
-        function tm() { let d = new Date(); d.setDate(d.getDate() + 1); return d.toISOString() }
-        function t180() { let d = new Date(); d.setDate(d.getDate() + 180); return d.toISOString() }
-        function fn(r, p) { if (!r || !r.body || !r.body.flowInstances) return null; const f = r.body.flowInstances.find(x => x.flowInstancePage?.bsnInterFlowPgId === p); return f ? f.businessInteractionFlowInstanceId : r.body.flowInstances[r.body.flowInstances.length - 1]?.businessInteractionFlowInstanceId }
-        function tm2(m) { if (!m) return { t: '', b: false }; let s = m.toString(); const ok = s.includes('Isleminiz basariyla gerceklestirilmistir') || s.includes('basariyla gerceklestirilmistir'); s = s.replace(/Basvuruya ait bir sonraki ekranda islem yapma yetkiniz olmadigindan ana menuye yonlendirileceksiniz\.?/g, '').replace(/isg\.katip\.common\.exception\.business\.IsgBusinessException,\s*/g, '').replace(/\*\*\*/g, '').trim(); if (ok) s = 'Başarıyla oluşturuldu'; return { t: s, b: ok } }
-
-        async function pk(v) {
-            const t = ISG_KATIP_TOKEN;
-            if (!t) throw new Error('Token bulunamadı');
-            const { tur, sgkNo, tcKimlikNo, basKap, kaldirma, tesisat, tezgah, raf, makine, lpg, merdiven, kren, erisim } = v;
-            let id = null, fid = null, fa = '-', pa = '-';
-            const bt = tm(), et = t180();
-
-            try {
-                const s1 = await mk('https://isgkatip.csgb.gov.tr/be/bsn-inter/submit', { body: { businessInteraction: { bsnInterId: tur }, operationType: "ADD" } }, t);
-                if (s1.responseStatus !== 'SUCCESS') throw new Error('Başlatma hatası');
-                id = s1.body.businessInteractionInstanceId;
-                fid = s1.body.flowInstances?.[0]?.businessInteractionFlowInstanceId;
-
-                const s2 = await mk('https://isgkatip.csgb.gov.tr/be/quote/updateFlowInstance', { body: { quoteKey: { businessInteractionInstanceId: id }, flowInstancePage: { bsnInterFlowInscId: fid, bsnInterFlowPgId: 10143, name: "Info Page", scrOrd: 1, postActnStId: 1101 }, page: { type: "isg.katip.common.dto.bsninter.BusinessInteractionPageWarningDTO", isActv: 1, isLocked: false, bsnInterPgWrngId: 8212, bsnInterPgId: 10143, name: "Info Page", businessInteractionName: "CONTRACT PERIODIC CONTROL", businessInteractionInstanceId: id }, operation: { isActv: 1, businessInteractionPageOperationId: 26507, operationActionType: 10, businessInteractionPageOperationName: "Next", businessInteractionPageOperationShortCode: "NEXT" } } }, t);
-                fid = fn(s2, 10144);
-
-                // Mode'a göre parametreler
-                const isDetsis = currentMode === 'detsis';
-                const dataTpId = isDetsis ? 281 : 280;
-                const bsnInterPrtcptId = isDetsis ? 13288 : 13283;
-
-                const s3 = await mk('https://isgkatip.csgb.gov.tr/be/bsninter/conf/participant/hasRole', { body: { bsnInterPrtcptId: bsnInterPrtcptId, rowId: sgkNo, dataTpId: dataTpId } }, t);
-                if (s3.responseStatus !== 'SUCCESS') throw new Error(isDetsis ? 'Kamu kurumu bulunamadı' : 'İşyeri bulunamadı');
-                const fr = s3.body?.rowId || sgkNo;
-                fa = s3.body?.title || '-';
-
-                const s4 = await mk('https://isgkatip.csgb.gov.tr/be/quote/updateFlowInstance', { body: { quoteKey: { businessInteractionInstanceId: id }, flowInstancePage: { bsnInterFlowInscId: fid, bsnInterFlowPgId: 10144, name: "Workplace Selection", descr: "Participant Page", scrOrd: 2, postActnStId: 1101, isAutoComp: 1, isPnr: 1 }, page: { type: "isg.katip.common.dto.bsninter.participant.BusinessInteractionPageParticipantDTO", isActv: 1, isLocked: false, bsnInterPgPrtcptId: 6146, name: "Workplace Selection", descr: "Participant Page", participants: [{ isActv: 1, bsnInterPgPrtcptItemId: 6146, bsnInterPrtcptId: bsnInterPrtcptId, participantDataTypeId: dataTpId, ruleSetId: 1206, verNo: 1, name: "Workplace", participantName: "isyeri", rowId: fr, dataTpId: dataTpId }], businessInteractionName: "CONTRACT", businessInteractionInstanceId: id, tarafBilgisi: fr + "," + dataTpId }, operation: { isActv: 1, businessInteractionPageOperationId: 26508, operationActionType: 10, businessInteractionPageOperationName: "Next", businessInteractionPageOperationShortCode: "NEXT" } } }, t);
-                fid = fn(s4, 10145);
-
-                const s5 = await mk('https://isgkatip.csgb.gov.tr/be/bsninter/conf/participant/hasRole', { body: { bsnInterPrtcptId: 13282, rowId: tcKimlikNo, dataTpId: 300 } }, t);
-                if (s5.responseStatus !== 'SUCCESS') throw new Error('Personel bulunamadı');
-                const pr = s5.body?.rowId || tcKimlikNo;
-                pa = s5.body?.title || '-';
-
-                const s6 = await mk('https://isgkatip.csgb.gov.tr/be/quote/updateFlowInstance', { body: { quoteKey: { businessInteractionInstanceId: id }, flowInstancePage: { bsnInterFlowInscId: fid, bsnInterFlowPgId: 10145, name: "Personnel Selection", descr: "Participant Page", scrOrd: 3, postActnStId: 1101, isAutoComp: 1, isPnr: 1 }, page: { type: "isg.katip.common.dto.bsninter.participant.BusinessInteractionPageParticipantDTO", isActv: 1, isLocked: false, bsnInterPgPrtcptId: 6147, name: "Personnel Selection", descr: "Participant Page", participants: [{ isActv: 1, bsnInterPgPrtcptItemId: 6147, bsnInterPrtcptId: 13282, participantDataTypeId: 300, ruleSetId: 1205, verNo: 1, name: "Personnel", participantName: "kontrolpersoneli", rowId: pr, dataTpId: 300 }], businessInteractionName: "CONTRACT", businessInteractionInstanceId: id, tarafBilgisi: fr + "," + dataTpId }, operation: { isActv: 1, businessInteractionPageOperationId: 26509, operationActionType: 10, businessInteractionPageOperationName: "Next", businessInteractionPageOperationShortCode: "NEXT" } } }, t);
-                fid = fn(s6, 10146);
-
-                const ct = ts();
-                const cc = (i, l, tg, vl) => ({ isActv: 1, cdate: ct, cuser: 5675110, uuser: 5675110, bsnInterPgCharId: i, bsnInterPgLytId: l, charId: tg === "bastar" || tg === "bittar" ? 22 : 1, name: "", isOvrdn: 0, isOpt: 0, tag: tg, isLocked: 0, comments: [], gnlChar: { isActv: 1, charId: tg === "bastar" || tg === "bittar" ? 22 : 1, name: tg === "bastar" || tg === "bittar" ? "DATE FIELD" : "NUMERIC FIELD", shrtCode: tg === "bastar" || tg === "bittar" ? "KS_TRH" : "GNL_CHAR_1", valTpId: tg === "bastar" || tg === "bittar" ? 12 : 10, valDispHintId: tg === "bastar" || tg === "bittar" ? 721 : 722, regExprId: tg === "bastar" || tg === "bittar" ? undefined : 1000, isSyst: 1, valueList: [], valueDisplayHint: { isActv: 1, gnlTpId: tg === "bastar" || tg === "bittar" ? 721 : 722, name: tg === "bastar" || tg === "bittar" ? "Date Input" : "Number Input", shrtCode: tg === "bastar" || tg === "bittar" ? "DATE" : "INT" }, valueType: { isActv: 1, gnlTpId: tg === "bastar" || tg === "bittar" ? 12 : 10, name: tg === "bastar" || tg === "bittar" ? "Date" : "Number", shrtCode: tg === "bastar" || tg === "bittar" ? "DATE" : "INT" } }, historyCapturedGeneralChars: [], capturedValue: { capturedValueList: [{ val: vl, charId: tg === "bastar" || tg === "bittar" ? 22 : 1 }] } });
-
-                const s7 = await mk('https://isgkatip.csgb.gov.tr/be/quote/updateFlowInstance', { body: { quoteKey: { businessInteractionInstanceId: id }, flowInstancePage: { bsnInterFlowInscId: fid, bsnInterFlowPgId: 10146, name: "Contract Info", scrOrd: 4, postActnStId: 1101 }, page: { type: "isg.katip.common.dto.bsninter.BusinessInteractionPageFormDTO", isActv: 1, cdate: ct, cuser: 5675110, isLocked: false, bsnInterPgFormId: 7212, bsnInterPgId: 10146, name: "Contract Info", descr: "Form Page", businessInteractionPageLayouts: [{ isActv: 1, bsnInterPgLytId: 7229, bsnInterPgFormId: 7212, name: "Assignment Info", businessInteractionPageChars: [cc(8589, 7229, "bastar", bt), cc(8590, 7229, "bittar", et)] }, { isActv: 1, bsnInterPgLytId: 7230, bsnInterPgFormId: 7212, name: "Equipment Info", businessInteractionPageChars: [cc(8591, 7230, "bas_kap_say", basKap), cc(8592, 7230, "kal_ekip_say", kaldirma), cc(8593, 7230, "tes_say", tesisat), cc(8594, 7230, "tez_say", tezgah), cc(8595, 7230, "end_raf_say", raf), cc(8596, 7230, "is_mak_say", makine)] }, { isActv: 1, bsnInterPgLytId: 7231, bsnInterPgFormId: 7212, name: "Accredited Equipment", businessInteractionPageChars: [cc(8597, 7231, "lpg_say", lpg), cc(8598, 7231, "yur_mer_say", merdiven), cc(8599, 7231, "kren_say", kren), cc(8600, 7231, "asi_eri_say", erisim)] }], businessInteractionName: "CONTRACT", businessInteractionInstanceId: id, tags: { bastar: bt, bittar: et, bas_kap_say: basKap, kal_ekip_say: kaldirma, tes_say: tesisat, tez_say: tezgah, end_raf_say: raf, is_mak_say: makine, lpg_say: lpg, yur_mer_say: merdiven, kren_say: kren, asi_eri_say: erisim } }, operation: { isActv: 1, cdate: ct, cuser: 5675110, uuser: 5675110, businessInteractionPageOperationId: 26510, operationActionType: 10, businessInteractionPageOperationName: "Next", businessInteractionPageOperationShortCode: "NEXT" } } }, t);
-
-                const rs = tm2(JSON.stringify(s7));
-                if (!rs.b) throw new Error(rs.t || 'Form hatası');
-
-                return { basarili: true, tur, sgkNo, tcKimlik: tcKimlikNo, instanceId: id, fa, pa };
-            } catch (e) {
-                throw e;
-            }
-        }
-
-        function vl(tx) {
-            const ls = tx.split('\n').filter(l => l.trim() !== '');
-            const r = { v: [], iv: [], t: ls.length };
-            const isDetsis = currentMode === 'detsis';
-            const isyeriHane = isDetsis ? 8 : 26;
-            const isyeriLabel = isDetsis ? 'DetSis' : 'SGK';
-
-            ls.forEach((l, i) => {
-                const ln = i + 1;
-                const ps = l.split(';');
-                if (ps.length !== 13) { r.iv.push({ l: ln, d: l, e: '13 alan gerekli' }); return }
-                const [tur, sgk, tc, bk, kl, ts, tz, rf, mk, lp, mr, kr, er] = ps.map(p => p.trim());
-                const es = [];
-                if (!/^\d+$/.test(tur)) es.push('Tür sayı olmalı');
-
-                // Mode'a göre işyeri no validasyonu
-                const isyeriRegex = new RegExp(`^\\d{${isyeriHane}}$`);
-                if (!isyeriRegex.test(sgk)) es.push(`${isyeriLabel} ${isyeriHane} hane`);
-
-                if (!/^\d{11}$/.test(tc)) es.push('TC 11 hane');
-                [bk, kl, ts, tz, rf, mk, lp, mr, kr, er].forEach((e, x) => { if (!/^\d+$/.test(e)) es.push(['BK', 'Kld', 'TS', 'Tzg', 'Rf', 'Mkn', 'LPG', 'Mrd', 'Krn', 'Erş'][x] + ' sayı olmalı') });
-                if (es.length === 0) { r.v.push({ l: ln, d: l, tur, sgkNo: sgk, tcKimlikNo: tc, basKap: bk, kaldirma: kl, tesisat: ts, tezgah: tz, raf: rf, makine: mk, lpg: lp, merdiven: mr, kren: kr, erisim: er }) } else { r.iv.push({ l: ln, d: l, e: es.join(', ') }) }
-            });
-            return r;
-        }
-
-        async function sendToISGKatip() {
-            // Token kontrolü
-            if (!ISG_KATIP_TOKEN) {
-                alert('❌ İSG Katip oturumu bulunamadı!\n\nLütfen:\n1. İSG Katip sitesine giriş yapın\n2. Bu bookmarklet\'i tekrar çalıştırın');
-                return;
-            }
-
-            if (dataLines.length === 0) {
-                alert('⚠️ Gönderilecek veri yok!');
-                return;
-            }
-
-            const output = document.getElementById('output').value.trim();
-            const vr = vl(output);
-
-            if (vr.iv.length > 0) {
-                alert('❌ Geçersiz veriler var! Lütfen düzeltin.\n\n' + vr.iv.map(i => `Satır ${i.l}: ${i.e}`).join('\n'));
-                return;
-            }
-
-            if (!confirm(`${vr.v.length} kayıt İSG Katip'e gönderilecek.\n\nDevam etmek istiyor musunuz?`)) {
-                return;
-            }
-
-            // Progress section göster
-            const progressSection = document.getElementById('progressSection');
-            const progressBar = document.getElementById('progressBar');
-            const progressHeader = document.getElementById('progressHeader');
-            const progressMessages = document.getElementById('progressMessages');
-            const resultSummary = document.getElementById('resultSummary');
-
-            progressSection.classList.add('show');
-            progressHeader.textContent = 'İSG Katip\'e Gönderiliyor...';
-            progressMessages.innerHTML = '';
-            resultSummary.style.display = 'none';
-            progressBar.style.width = '0%';
-            progressBar.textContent = '0%';
-
-            const results = [];
-            let successCount = 0;
-            let errorCount = 0;
-
-            for (let i = 0; i < vr.v.length; i++) {
-                const item = vr.v[i];
-                const percent = Math.round(((i + 1) / vr.v.length) * 100);
-
-                progressBar.style.width = percent + '%';
-                progressBar.textContent = percent + '%';
-                progressHeader.textContent = `İşleniyor: ${i + 1}/${vr.v.length}`;
-
-                const statusDiv = document.createElement('div');
-                statusDiv.className = 'progress-status';
-                statusDiv.innerHTML = `<strong>Satır ${i + 1}:</strong> ${item.sgkNo} - ${item.tcKimlikNo} işleniyor...`;
-                progressMessages.appendChild(statusDiv);
-                progressMessages.scrollTop = progressMessages.scrollHeight;
-
-                try {
-                    const result = await pk(item);
-                    successCount++;
-
-                    statusDiv.className = 'progress-status success';
-                    statusDiv.innerHTML = `<strong>✅ Satır ${i + 1}:</strong> ${result.fa} - ${result.pa}
-                        <div class="progress-detail">ID: ${result.instanceId}</div>`;
-
-                    results.push({ ...result, satir: i + 1 });
-
-                } catch (error) {
-                    errorCount++;
-                    const errorMsg = tm2(error.message);
-
-                    statusDiv.className = 'progress-status error';
-                    statusDiv.innerHTML = `<strong>❌ Satır ${i + 1}:</strong> ${item.sgkNo} - ${item.tcKimlikNo}
-                        <div class="progress-detail">${errorMsg.t}</div>`;
-
-                    results.push({ satir: i + 1, basarili: false, hata: errorMsg.t, veri: item });
-                }
-
-                // 2 saniye bekle
-                await new Promise(res => setTimeout(res, 2000));
-            }
-
-            // Özet göster
-            progressHeader.textContent = '✅ Tamamlandı!';
-            progressBar.style.width = '100%';
-            progressBar.textContent = '100%';
-
-            resultSummary.style.display = 'grid';
-            resultSummary.innerHTML = `
-                <div class="result-card info">
-                    <div class="result-card-number">${vr.v.length}</div>
-                    <div class="result-card-label">Toplam</div>
-                </div>
-                <div class="result-card success">
-                    <div class="result-card-number" style="color: #28a745;">${successCount}</div>
-                    <div class="result-card-label">Başarılı</div>
-                </div>
-                <div class="result-card error">
-                    <div class="result-card-number" style="color: #dc3545;">${errorCount}</div>
-                    <div class="result-card-label">Hatalı</div>
-                </div>
-            `;
-
-            alert(`✅ İşlem tamamlandı!\n\nBaşarılı: ${successCount}\nHatalı: ${errorCount}`);
         }
     </script>
 </body>
