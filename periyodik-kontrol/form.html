@@ -2295,9 +2295,18 @@
         function fn(r,p){if(!r||!r.body||!r.body.flowInstances)return null;const f=r.body.flowInstances.find(x=>x.flowInstancePage?.bsnInterFlowPgId===p);return f?f.businessInteractionFlowInstanceId:r.body.flowInstances[r.body.flowInstances.length-1]?.businessInteractionFlowInstanceId}
         function tm2(m){if(!m)return{t:'',b:false};let s=m.toString();const ok=s.includes('Isleminiz basariyla gerceklestirilmistir')||s.includes('basariyla gerceklestirilmistir');s=s.replace(/Basvuruya ait bir sonraki ekranda islem yapma yetkiniz olmadigindan ana menuye yonlendirileceksiniz\.?/g,'').replace(/isg\.katip\.common\.exception\.business\.IsgBusinessException,\s*/g,'').replace(/\*\*\*/g,'').trim();if(ok)s='Başarıyla oluşturuldu';return{t:s,b:ok}}
         
-        async function pk(v){
-            const t=sessionStorage.getItem('token');
-            if(!t)throw new Error('Token bulunamadı');
+        async function pk(v) {
+            let t;
+
+            try {
+                t=window.parent.sessionStorage.getItem('token');
+            }   
+
+            catch (e) {
+                t=null;
+            }
+
+            if( !t)throw new Error('Token bulunamadı');
             const{tur,sgkNo,tcKimlikNo,basKap,kaldirma,tesisat,tezgah,raf,makine,lpg,merdiven,kren,erisim}=v;
             let id=null,fid=null,fa='-',pa='-';
             const bt=tm(),et=t180();
@@ -2374,9 +2383,19 @@
         
         // İSG Katip'e Gönder
         async function sendToISGKatip() {
-            // Site kontrolü
-            if (window.location.hostname !== 'isgkatip.csgb.gov.tr') {
-                alert('❌ Bu özellik sadece isgkatip.csgb.gov.tr adresinde çalışır!\n\nLütfen önce İSG Katip sitesine giriş yapın, ardından bu formu tekrar açın.');
+            // Token kontrolü - iframe içinde olduğumuz için parent'ı kontrol et
+            let token;
+
+            try {
+                token=window.parent.sessionStorage.getItem('token');
+            }
+
+            catch (e) {
+                token=null;
+            }
+
+            if ( !token) {
+                alert('❌ İSG Katip oturumu bulunamadı!\n\nLütfen:\n1. İSG Katip sitesine giriş yapın\n2. Bu bookmarklet\'i tekrar çalıştırın');
                 return;
             }
             
