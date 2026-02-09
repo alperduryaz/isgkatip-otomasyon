@@ -298,6 +298,18 @@
             transform: translateY(-1px);
         }
 
+        .btn-send {
+            background: #28a745;
+            color: white;
+            font-size: 16px;
+            padding: 10px 25px;
+        }
+
+        .btn-send:hover {
+            background: #218838;
+            transform: translateY(-1px);
+        }
+
         .btn-clear {
             background: #6c757d;
             color: white;
@@ -743,6 +755,7 @@
             <div class="action-buttons">
                 <button class="btn-copy" onclick="copyToClipboard()">📋 Tümünü Kopyala</button>
                 <button class="btn-clear" onclick="clearOutput()">🗑️ Çıktıyı Temizle</button>
+                <button class="btn-send" onclick="sendToParent()">🚀 İSG Katip'e Gönder</button>
             </div>
         </div>
     </div>
@@ -809,6 +822,31 @@
         function notifyModeChange() {
             if (window.parent !== window) {
                 window.parent.postMessage({ type: 'MODE_CHANGE', mode: currentMode }, '*');
+                console.log('📤 Mod değişikliği parent\'a gönderildi:', currentMode);
+            }
+        }
+
+        // Parent'a veri gönder
+        function sendToParent() {
+            const output = document.getElementById('output');
+
+            if (!output || !output.value.trim()) {
+                alert('⚠️ Gönderilecek veri yok! Önce formu doldurup "Tümünü Ekle" butonuna basın.');
+                return;
+            }
+
+            const data = output.value.trim();
+
+            if (window.parent !== window) {
+                window.parent.postMessage({
+                    type: 'SEND_TO_ISGKATIP',
+                    data: data,
+                    mode: currentMode
+                }, '*');
+
+                console.log('✅ Veri parent\'a gönderildi:', data.split('\n').length + ' satır');
+            } else {
+                alert('⚠️ Bu sayfa iframe içinde değil! Bookmarklet ile açın.');
             }
         }
 
